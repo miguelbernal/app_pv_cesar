@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Punto de Venta | Menu</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/all.min.css">
+  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="stylesheet" href="css/menu.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark animate__animated animate__backInDown">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="./menu">
+        <img src="./img/logo.png" alt="Logo" height="20" style="margin-top: -10px">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-0">
+          <li><i id="menu-boton" class="fas fa-bars" style="color: grey; font-size:32px;"></i></li>
+        </ul>
+        <form class="d-flex">
+          <div class="btn-group">
+            <img src="./img/usuarios/1.jpg" alt="Logo" height="37" class="rounded-circle me-1 shadow">
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+              <li><a class="dropdown-item" href="#">Cesar Vergara</a></li>
+              <li><a class="dropdown-item" href="#">Cambiar Contraseña</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="./admin">Salir</a></li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Menu Lateral -->
+  <div class='panel-principal'>
+    <div id="menu-admin" class="menu-admin animate__animated animate__fadeIn">
+      <div class="text-center">
+        <img id="img-usuario" src="./img/usuarios/1.jpg" alt="img-usuario" width="100"
+          class="rounded-circle mb-3 shadow">
+        <p>Cesar Vergara</p>
+      </div>
+      <div class="accordion" id="accordion_menu">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Seguridad
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+              data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <ul class="list-group">
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/usuarios/index.html','')">Usuarios</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/roles/index.html','')">Roles</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/formularios/index.html','')">Formularios</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/submenus/index.html','')">Submenus</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/permisos/index.html','')">Permisos</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/cambiar_clave/index.html','')">Cambiar contraseña</li>
+                  <li class="list-group-item" onclick="cargar_formulario('panel-lista','frm/seguridad/copias_seguridad/index.html','')">Copias de seguridad</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="text-align: center;" class="mt-3">&COPY;2021 Punto de Venta</p>
+    </div>
+    <div id="panel-main" class="panel-main">
+      <div id="panel-lista"></div>
+      <div id="panel-formulario"></div>
+    </div>
+  </div>
+
+  <div id="mensaje"></div>
+
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/scripts.js"></script>
+  <script src="js/menu.js"></script>
+</body>
+
+</html>

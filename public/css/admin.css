@@ -1,0 +1,16 @@
+body{
+    background-image: url(../img/fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.form-admin{
+    width: 350px;
+}
+.form-admin img{
+    width: 350px;
+}
