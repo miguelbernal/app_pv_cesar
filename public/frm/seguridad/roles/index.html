@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="./frm/seguridad/roles/index.css">
+
 <div class="card">
     <div class="card-body">
         <div class="alert alert-warning" role="alert">
@@ -14,13 +15,15 @@
             </div>
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <button id='boton-guardar' class="btn btn-outline-primary btn-sm" onclick='guardar()'><i class="fas fa-plus"></i> Agregar</button>
-                    <button id='boton-cancelar' class="btn btn-outline-secondary btn-sm" onclick='agregar_linea()'><i class="fas fa-times"></i> Cancelar</button>
+                    <button type="button" id='boton-guardar' class="btn btn-outline-primary btn-sm" onclick='guardar()'>
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                    <button type="button" id='boton-cancelar' class="btn btn-outline-secondary btn-sm" onclick='agregar_linea()'>
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
                 </div>
             </div>
-            <div id="panel-formulario-mensaje" class="alert alert-danger mt-2 text-center d-none" role="alert">
-
-            </div>      
+            <div id="panel-formulario-mensaje" class="alert alert-danger mt-2 text-center d-none" role="alert"></div>      
         </div>
         <div class="input-group mb-1">
             <span class="input-group-text texto-campo">
@@ -37,7 +40,9 @@
                     <tr>
                         <th>Nombre</th>
                         <th class="text-center" style="width: 100px;">
-                            <button id='boton-agregar-linea' class="btn btn-outline-info btn-sm" onclick='agregar_linea()'><i class="fas fa-plus"></i></button>
+                            <button id='boton-agregar-linea' class="btn btn-outline-info btn-sm" onclick='agregar_linea()'>
+                                <i class="fas fa-plus"></i>
+                            </button>
                         </th>
                     </tr>
                 </thead>
@@ -48,7 +53,10 @@
         </div>
     </div>
     <div class="card-footer">
-        <button id='boton-salir' class="btn btn-outline-danger btn-sm" onclick='salir_formulario()''><i class="fas fa-sign-out-alt"></i> Salir</button>
+        <button type="button" id='boton-salir' class="btn btn-outline-danger btn-sm" onclick='salir_formulario()''>
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
     </div>
 </div>
+
 <script src="./frm/seguridad/roles/index.js"></script>

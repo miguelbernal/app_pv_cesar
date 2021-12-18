@@ -1,72 +1,63 @@
-inicializar_formulario();
+inicializar_formulario()
 
-function inicializar_formulario() {
-    document.getElementById('nombre').select();
-    siguiente_campo('#nombre', '#boton-guardar', true, true);
-    buscar_roles();
-    id_rol = 0;
+function inicializar_formulario(){
+    focus('#nombre')
+    siguiente_campo('#nombre','#boton-guardar', true)
+    buscar_roles()
+    id_rol = 0
 }
 
-function guardar() {
+function editar_linea(xthis){
+    id_rol = xthis.parentElement.parentElement.getAttribute('data-id_rol')
+    const tds = xthis.parentElement.parentElement.children
+    const nombre = tds[0].innerText
+    document.getElementById('nombre').value = nombre
+    focus('#nombre')
+    document.getElementById('boton-guardar').innerHTML = '<i class="bi bi-pencil"></i> Modificar'
+}
+
+function agregar_linea(){
+    id_rol = 0
+    document.getElementById('nombre').value = ''
+    focus('#nombre')
+    document.getElementById('boton-guardar').innerHTML = '<i class="bi bi-plus-lg"></i> Agregar'
+}
+
+function eliminar_linea(xthis){
+    id_rol_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_rol')
+    mensaje_confirmar('¿Está seguro de eliminar este registro?','Eliminar','guardar_eliminar()')
+}
+
+function guardar(){
     if (validar_formulario()) {
-        if(id_rol === 0){
-            guardar_agregar();
+        if (id_rol === 0) {
+            guardar_agregar()
         } else {
-            guardar_modificar();
+            guardar_modificar()
         }
     }
 }
 
-function eliminar_linea(xthis){
-    id_rol_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_rol');
-    mensaje_confirmar("¿Está seguro de eliminar este registro?", "Eliminar", "guardar_eliminar()");
-}
-
-function validar_formulario() {
-    let mensaje = document.getElementById('panel-formulario-mensaje');
-    mensaje.classList.add('d-none');
-    mensaje.innerHTML = '';
-    let ok = true;
-    let nombre = document.getElementById('nombre');
+function validar_formulario(){
+    let ok = true
+    const nombre = document.getElementById('nombre')
     if (nombre.value.trim() === '') {
-        nombre.select();
-        mensaje.classList.remove('d-none');
-        mensaje.innerHTML = "Nombre vacio.";
-        ok = false;
+        mensaje_formulario('#nombre','Nombre vacio.')
+        ok = false
     }
-    return ok;
-}
-
-function agregar_linea(){
-    id_rol = 0;
-    document.getElementById('nombre').value = '';
-    focus('#nombre');
-    document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar';
-}
-
-function editar_linea(xthis){
-    id_rol = xthis.parentElement.parentElement.getAttribute('data-id_rol');
-    const tds = xthis.parentElement.parentElement.children;
-    const nombre = tds[0].innerText;
-    document.getElementById('nombre').value = nombre;
-    focus('#nombre');
-    document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-pencil-alt"></i> Modificar';
+    return ok
 }
 
 // Llamadas al Servidor
 async function buscar_roles() {
-    let url = '/api/roles/buscar';
     let buscar = document.getElementById('buscar').value;
-    let data = {
-        buscar: buscar,
-    };
+    let url = `/api/v1/roles?buscar=${buscar}`;
     var parametros = {
-        method: "POST",
+        method: "GET",
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
     };
     var datos = await fetch(url, parametros)
     const json = await datos.json();
@@ -74,12 +65,16 @@ async function buscar_roles() {
     tbody.innerText = '';
     let lineas = '';
     if (json.status === 200) {
-        for (let item in json.data) {
-            let linea = `<tr data-id_rol=${json.data[item].id}>
-                            <td>${json.data[item].nombre}</td>
+        for (let item in json.datos) {
+            let linea = `<tr data-id_rol=${json.datos[item].id}>
+                            <td>${json.datos[item].nombre}</td>
                             <td class="text-center">
-                                <button class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'><i class="fas fa-pencil-alt"></i></button>
-                                <button class="btn btn-outline-danger btn-sm" onclick='eliminar_linea(this)'><i class="fas fa-trash"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-danger btn-sm" onclick='eliminar_linea(this)'>
+                                    <i class="fas fa-trash"></i>
+                                </button>
                             </td>
                         </tr>`;
              lineas += linea;
@@ -92,7 +87,7 @@ async function buscar_roles() {
 }
 
 async function guardar_agregar(){
-    let url = '/api/roles';
+    let url = '/api/v1/roles';
     let nombre = document.getElementById('nombre').value;
 
     var data = {
@@ -110,17 +105,15 @@ async function guardar_agregar(){
     
     var datos = await fetch(url, parametros)
     const json = await datos.json();
-    console.log(json);
     buscar_roles();
     agregar_linea();
 }
 
 async function guardar_modificar(){
-    let url = 'api/roles';
+    let url = `/api/v1/roles/${id_rol}`;
     let nombre = document.getElementById('nombre').value;
 
     var data = {
-        id_rol: id_rol,
         nombre: nombre,
     };
 
@@ -132,20 +125,17 @@ async function guardar_modificar(){
         },
         body: JSON.stringify(data)
     };
-
+    
     var datos = await fetch(url, parametros)
     const json = await datos.json();
-    console.log(json);
     buscar_roles();
     agregar_linea();
 }
 
-async function guardar_eliminar(xthis){
-    let url = '/api/roles';
-    
-    var data = {
-        id_rol: id_rol_eliminar,
-    };
+async function guardar_eliminar(){
+    let url = `/api/v1/roles/${id_rol_eliminar}`;
+
+    var data = {};
 
     var parametros = {
         method: 'DELETE',
@@ -155,9 +145,9 @@ async function guardar_eliminar(xthis){
         },
         body: JSON.stringify(data)
     };
-
+    
     var datos = await fetch(url, parametros)
     const json = await datos.json();
-    console.log(json);
     buscar_roles();
 }
+

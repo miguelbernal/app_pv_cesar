@@ -160,6 +160,10 @@ function buscar_lista(campo, id, funcion_elegir, funcion_buscar, panel_activo) {
     eval(funcion_buscar);
 }
 
+function salir_formulario(){
+    document.getElementById('panel-lista').innerHTML = ''
+}
+
 function salir_buscador(id) {
     let modal_buscador = document.getElementById(id);
     modal_buscador.remove();
