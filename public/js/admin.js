@@ -30,7 +30,7 @@ function validar_formulario(){
 }
 
 async function validar_servidor(){
-    const url = 'api/usuarios/login'
+    const url = 'api/v1/usuarios/login'
     
     const data = {
         usuario: usuario.value,
