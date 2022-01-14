@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usuariosRouter = require('./routes/usuariosRouter');
 var rolesRouter = require('./routes/rolesRouter');
 var submenusRouter = require('./routes/submenusRouter');
+var formulariosRouter = require('./routes/formulariosRouter');
 
 var app = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/api/v1/usuarios', usuariosRouter);
 app.use('/api/v1/roles', rolesRouter);
 app.use('/api/v1/submenus', submenusRouter);
+app.use('/api/v1/formularios', formulariosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
