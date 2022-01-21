@@ -46,3 +46,17 @@ CREATE TABLE app_pv_cesar.formularios (
   PRIMARY KEY (id),
   UNIQUE KEY formularios_un (nombre)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE app_pv_cesar.permisos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_rol int(11) NOT NULL,
+  id_formulario int(11) NOT NULL,
+  agregar tinyint(1) DEFAULT NULL,
+  modificar tinyint(1) DEFAULT NULL,
+  eliminar tinyint(1) DEFAULT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
