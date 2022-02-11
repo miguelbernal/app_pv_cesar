@@ -88,6 +88,15 @@ function mensaje_confirmar(texto, texto_boton, funcion) {
     });
 }
 
+function mensaje_formulario(campo, msg){
+    let mensaje = document.getElementById('panel-formulario-mensaje')
+    mensaje.classList.add("d-none")
+    mensaje.innerHTML = ''
+    focus(campo)
+    mensaje.classList.remove('d-none')
+    mensaje.innerHTML = msg
+}
+
 async function cargar_formulario(div, url, funcion) {
     const response = await fetch(url);
     const div_link = "#" + div + " link";
@@ -168,3 +177,4 @@ function salir_buscador(id) {
     let modal_buscador = document.getElementById(id);
     modal_buscador.remove();
 }
+

@@ -51,6 +51,9 @@ async function validar_servidor(){
     if (json.status === 200) {
         location.href = 'menu'
         localStorage.setItem('token',json.token)
+        localStorage.setItem('id_usuario',json.datos.id)
+        localStorage.setItem('nombre_usuario',json.datos.nombre)
+        localStorage.setItem('usuario_usuario',json.datos.usuario)
     } else {
         mensaje('Credencial incorrecta.','focus("#usuario")')
     }
