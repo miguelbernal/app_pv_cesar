@@ -11,6 +11,7 @@ var submenusRouter = require('./routes/submenusRouter');
 var formulariosRouter = require('./routes/formulariosRouter');
 var permisosRouter = require('./routes/permisosRouter');
 var backupsRouter = require('./routes/backupsRouter');
+var clientesRouter = require('./routes/clientesRouter');
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/v1/submenus', submenusRouter);
 app.use('/api/v1/formularios', formulariosRouter);
 app.use('/api/v1/permisos', permisosRouter);
 app.use('/api/v1/backups', backupsRouter);
+app.use('/api/v1/clientes', clientesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
