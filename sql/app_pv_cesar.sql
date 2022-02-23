@@ -76,3 +76,32 @@ CREATE TABLE app_pv_cesar.clientes (
   date_del datetime DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+CREATE TABLE app_pv_cesar.proveedores (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  direccion varchar(100) NOT NULL,
+  telefono varchar(100) NOT NULL,
+  ruc varchar(20) NOT NULL,
+  email varchar(100) NOT NULL,
+  localizacion varchar(50) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+CREATE TABLE app_pv_cesar.productos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  costo int(11) NOT NULL,
+  precio int(11) NOT NULL,
+  stock int(11) NOT NULL,
+  iva int(2) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
