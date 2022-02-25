@@ -1,21 +1,23 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usuariosRouter = require('./routes/usuariosRouter');
-var rolesRouter = require('./routes/rolesRouter');
-var submenusRouter = require('./routes/submenusRouter');
-var formulariosRouter = require('./routes/formulariosRouter');
-var permisosRouter = require('./routes/permisosRouter');
-var backupsRouter = require('./routes/backupsRouter');
-var clientesRouter = require('./routes/clientesRouter');
-var proveedoresRouter = require('./routes/proveedoresRouter');
-var productosRouter = require('./routes/productosRouter');
+const indexRouter = require('./routes/index');
+const usuariosRouter = require('./routes/usuariosRouter');
+const rolesRouter = require('./routes/rolesRouter');
+const submenusRouter = require('./routes/submenusRouter');
+const formulariosRouter = require('./routes/formulariosRouter');
+const permisosRouter = require('./routes/permisosRouter');
+const backupsRouter = require('./routes/backupsRouter');
+const clientesRouter = require('./routes/clientesRouter');
+const proveedoresRouter = require('./routes/proveedoresRouter');
+const productosRouter = require('./routes/productosRouter');
+const inventarios_cabecerasRouter = require('./routes/inventarios_cabecerasRouter');
+const inventarios_detallesRouter = require('./routes/inventarios_detallesRouter');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +39,9 @@ app.use('/api/v1/backups', backupsRouter);
 app.use('/api/v1/clientes', clientesRouter);
 app.use('/api/v1/proveedores', proveedoresRouter);
 app.use('/api/v1/productos', productosRouter);
+app.use('/api/v1/inventarios_cabeceras', inventarios_cabecerasRouter);
+app.use('/api/v1/inventarios_detalles', inventarios_detallesRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

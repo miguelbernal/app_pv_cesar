@@ -105,3 +105,32 @@ CREATE TABLE app_pv_cesar.productos (
   date_del datetime DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- INVENTARIOS_CABECERAS
+CREATE TABLE app_pv_cesar.inventarios_cabeceras (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  fecha datetime DEFAULT current_timestamp(),
+  observaciones varchar(100) NOT NULL,
+  total_costo int(11) DEFAULT 0,
+  total_precio int(11) DEFAULT 0,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- INVENTARIOS_DETALLES
+CREATE TABLE app_pv_cesar.inventarios_detalles (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_inventario_cabecera int(11) NOT NULL,
+  id_producto int(11) NOT NULL,
+  cantidad int(11) DEFAULT 1,
+  costo int(11) DEFAULT 0,
+  precio int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
