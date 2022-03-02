@@ -178,3 +178,196 @@ function salir_buscador(id) {
     modal_buscador.remove();
 }
 
+function get_hoy(){
+    const fecha = new Date()
+    const anio = fecha.getFullYear()
+    const mes = (fecha.getMonth()+1) < 10 ? '0'+(fecha.getMonth()+1) : fecha.getMonth()+1
+    const dia = fecha.getDate() < 10 ? '0'+fecha.getDate() : fecha.getDate()
+    const hora = fecha.getHours() < 10 ? '0'+fecha.getHours() : fecha.getHours()
+    const minuto = fecha.getMinutes() < 10 ? '0'+fecha.getMinutes() : fecha.getMinutes()
+    const segundo = fecha.getSeconds() < 10 ? '0'+fecha.getSeconds() : fecha.getSeconds()
+    const fecha_format = `${anio}-${mes}-${dia} ${hora}:${minuto}:${segundo}`
+    return fecha_format
+}
+
+// CALENDARIO
+function calendario(campo, id, panel_activo){
+    const elemento = document.getElementById(campo)
+    const coords = elemento.getBoundingClientRect()
+    const menu_admin = document.getElementById('menu-admin');
+    const menu_oculto = menu_admin.classList.contains('menu-oculto');
+    const sumar = menu_oculto ? 0 : 300;
+
+    let top = coords.top
+    let left = coords.left
+    let modal = document.createElement('div')
+    modal.setAttribute('style', `
+        width: ${coords.width}px;
+        position: absolute;
+        top: ${top - 20}px;
+        left: ${left - sumar}px;
+        z-index: 1000;
+        background: rgba( 255, 255, 255, 0.25 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 4px );
+        -webkit-backdrop-filter: blur( 4px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+    `);
+    const meses = get_meses()
+    const anios = get_anios()
+    modal.id = id
+    modal.innerHTML = `
+    <div class="table-resposive">
+        <div class="row">
+            <div class="col-md-6">
+                <select class='form-control' onchange="cargar_calendario_anio_mes(this,'${campo}')">
+                    ${meses}
+                </select>
+            </div>
+            <div class="col-md-6">
+                <select class='form-control' onchange="cargar_calendario_anio_mes(this,'${campo}')">
+                    ${anios}
+                </select>
+            </div>
+        </div>
+        <table class="table table-striped table-hover table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>L</th>
+                    <th>M</th>
+                    <th>X</th>
+                    <th>J</th>
+                    <th>V</th>
+                    <th>S</th>
+                    <th>D</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-datos-elegir-${campo}" style="cursor: pointer">
+                
+            </tbody>
+        </table>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon-hora">
+                <i class="fas fa-clock"></i>
+            </span>
+            <input type="number" min="0" max="23" class="form-control" aria-label="Hora" aria-describedby="basic-addon-hora" value="0">
+            <input type="number" min="0" max="59" class="form-control" aria-label="Hora" aria-describedby="basic-addon-minuto" value="0">
+            <input type="number" min="0" max="59" class="form-control" aria-label="Hora" aria-describedby="basic-addon-segundo" value="0">
+        </div>
+        <div class="btn-group d-flex mb-2" role="group" aria-label="Basic example">
+            <button class="btn btn-outline-primary btn-sm" onclick='seleccionar_calendario("${campo}","${id}")'><i class="fas fa-check"></i> Seleccionar</button>
+            <button class="btn btn-outline-danger btn-sm" onclick='salir_calendario("${id}")'><i class="fas fa-sign-out-alt"></i> Salir</button>
+        </div>
+    </div>
+    `;
+    const panel = document.getElementById(panel_activo);
+    panel.append(modal);
+    const anio = new Date().getFullYear()
+    const mes = new Date().getMonth() + 1
+    console.log(anio)
+    console.log(mes)
+    cargar_calendario(campo, anio, mes);
+    const tbody_datos = document.getElementById(`tbody-datos-elegir-${campo}`)
+    tbody_datos.parentNode.parentNode.children[0].children[0].children[0].value = mes 
+    tbody_datos.parentNode.parentNode.children[0].children[1].children[0].value = anio
+}
+
+function cargar_calendario_anio_mes(xthis, campo){
+    console.log(campo)
+    const mes = xthis.parentNode.parentNode.children[0].children[0].value
+    const anio = xthis.parentNode.parentNode.children[1].children[0].value
+    cargar_calendario(campo, anio, mes)
+}
+
+function seleccionar_calendario(campo,id){
+    const tbody_data = document.getElementById(`tbody-datos-elegir-${campo}`)
+    let hora = tbody_data.parentNode.parentNode.children[2].children[1].value
+    let minuto = tbody_data.parentNode.parentNode.children[2].children[2].value
+    let segundo = tbody_data.parentNode.parentNode.children[2].children[3].value
+    hora = hora < 10 ? '0'+hora : hora
+    minuto = minuto < 10 ? '0'+minuto : minuto
+    segundo = segundo < 10 ? '0'+segundo : segundo
+    document.getElementById(campo).value = tbody_data.getAttribute('data-fecha-seleccionada').substring(0,10) + " " + hora + ":" + minuto + ":" + segundo
+    let modal = document.getElementById(id);
+    modal.remove();
+}
+
+function salir_calendario(id) {
+    let modal = document.getElementById(id);
+    modal.remove();
+}
+
+function cargar_calendario(campo, anio, mes) {
+    const tbody_data = document.getElementById(`tbody-datos-elegir-${campo}`)
+    tbody_data.innerText = '';
+    const fecha_actual = new Date();
+    let fecha = new Date(anio, mes - 1, 1);
+    do {
+        if (fecha.getDay() === 1) {
+            break;
+        }
+        fecha.setDate(fecha.getDate() - 1);
+    } while (true);
+
+    for (let i = 1; i <= 6; i++) {
+        let tr = document.createElement('tr');
+        for (let j = 1; j <= 7; j++) {
+            let td = document.createElement('td');
+            if ((fecha.getDate() === fecha_actual.getDate()) &&
+                (fecha.getMonth() === fecha_actual.getMonth()) &&
+                (fecha.getFullYear() === fecha_actual.getFullYear())) {
+                td.className = 'actual'
+            }
+            if (fecha.getMonth() !== fecha_actual.getMonth()) {
+                td.className = 'no-mes-actual'
+            }
+            td.innerHTML = fecha.getDate();
+            td.setAttribute('data-fecha', fecha.toISOString().substring(0,10))
+            tr.append(td);
+            fecha.setDate(fecha.getDate() + 1);
+        }
+        tbody_data.append(tr);
+    }
+    const tds = `#tbody-datos-elegir-${campo} tr td`
+    document.querySelectorAll(tds).forEach(celda => {
+        celda.addEventListener('click', (event) => {
+            fecha_elegida = celda.getAttribute('data-fecha');
+            tbody_data.setAttribute("data-fecha-seleccionada",fecha_elegida)
+        });
+    });    
+}
+
+function get_meses(){
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    let lista = ''
+    for (let mes = 0; mes < meses.length; mes++) {
+        lista += `<option value='${mes+1}'>${meses[mes]}</option>`
+    }
+    return lista
+}
+
+function get_anios(){
+    const anio = Number(new Date().getFullYear())
+    const desde = anio - 5
+    const hasta = anio + 5
+    let lista = ''
+    for (let anio = desde; anio < hasta; anio++) {
+        lista += `<option value='${anio}'>${anio}</option>`
+    }
+    return lista
+}
+
+function get_mes(mes) {
+    const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    return meses[mes - 1]
+}
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
