@@ -6,37 +6,37 @@ function inicializador_formulario() {
 
     siguiente_campo('#condicion', '#timbrado', false);
     siguiente_campo('#timbrado', '#fiscal', false);
-    siguiente_campo('#fiscal', '#proveedor', false);
-    siguiente_campo('#proveedor', '#boton-guardar', true);
+    siguiente_campo('#fiscal', '#cliente', false);
+    siguiente_campo('#cliente', '#boton-guardar', true);
 
     siguiente_campo('#producto', '#cantidad', false);
     siguiente_campo('#cantidad', '#boton-guardar-detalle', false);
-    buscar_compras();
-    id_compra_cabecera = 0;
-    id_compra_detalle = 0;
+    buscar_ventas();
+    id_venta_cabecera = 0;
+    id_venta_detalle = 0;
 }
 
 function editar_linea(xthis) {
-    id_compra_cabecera = xthis.parentElement.parentElement.getAttribute('datos-id_compra_cabecera')
-    id_proveedor = xthis.parentElement.parentElement.getAttribute('datos-id_proveedor')
+    id_venta_cabecera = xthis.parentElement.parentElement.getAttribute('datos-id_venta_cabecera')
+    id_cliente = xthis.parentElement.parentElement.getAttribute('datos-id_cliente')
     const tds = xthis.parentElement.parentElement.children
     const fecha = tds[0].innerText
     const condicion = tds[1].innerText
     const timbrado = tds[2].innerText
     const fiscal = tds[3].innerText
-    const proveedor = tds[4].innerText
+    const cliente = tds[4].innerText
     document.getElementById('fecha').value = fecha
     document.getElementById('condicion').value = condicion
     document.getElementById('timbrado').value = timbrado
     document.getElementById('fiscal').value = fiscal
-    document.getElementById('proveedor').value = proveedor
+    document.getElementById('cliente').value = cliente
     focus('#fecha')
     document.getElementById('boton-guardar').innerHTML = '<i class="bi bi-pencil-fill"></i>  Modificar'
-    buscar_compras_detalle()
+    buscar_ventas_detalle()
 }
 
 function editar_linea_detalle(xthis) {
-    id_compra_detalle = xthis.parentElement.parentElement.getAttribute('datos-id_compra_detalle')
+    id_venta_detalle = xthis.parentElement.parentElement.getAttribute('datos-id_venta_detalle')
     id_producto = xthis.parentElement.parentElement.getAttribute('datos-id_producto')
     const tds = xthis.parentElement.parentElement.children
     const cantidad = tds[0].innerText
@@ -52,21 +52,21 @@ function editar_linea_detalle(xthis) {
 }
 
 function agregar_linea() {
-    id_compra_cabecera = 0
-    id_proveedor = 0
+    id_venta_cabecera = 0
+    id_cliente = 0
     document.getElementById('fecha').value = get_hoy()
     document.getElementById('condicion').value = '1'
     document.getElementById('timbrado').value = ''
     document.getElementById('fiscal').value = ''
-    document.getElementById('proveedor').value = ''
-    document.getElementById('tbody-datos-compras-detalle').innerHTML = ''
-    document.getElementById('total_compra').innerHTML = 0
+    document.getElementById('cliente').value = ''
+    document.getElementById('tbody-datos-ventas-detalle').innerHTML = ''
+    document.getElementById('total_venta').innerHTML = 0
     document.querySelector('#condicion').focus();
     document.getElementById('boton-guardar').innerHTML = '<i class="bi bi-plus-lg"></i>  Agregar'
 }
 
 function agregar_linea_detalle() {
-    id_compra_detalle = 0
+    id_venta_detalle = 0
     id_producto = 0
     document.getElementById('producto').value = ''
     document.getElementById('cantidad').value = 1
@@ -77,18 +77,18 @@ function agregar_linea_detalle() {
 }
 
 function eliminar_linea(xthis) {
-    id_compra_cabecera_eliminar = xthis.parentElement.parentElement.getAttribute('datos-id_compra_cabecera')
+    id_venta_cabecera_eliminar = xthis.parentElement.parentElement.getAttribute('datos-id_venta_cabecera')
     mensaje_confirmar('Seguro que quiere eliminar este registro?', 'Eliminar', 'guardar_eliminar()')
 }
 
 function eliminar_linea_detalle(xthis) {
-    id_compra_detalle_eliminar = xthis.parentElement.parentElement.getAttribute('datos-id_compra_detalle')
+    id_venta_detalle_eliminar = xthis.parentElement.parentElement.getAttribute('datos-id_venta_detalle')
     mensaje_confirmar('Seguro que quiere eliminar este registro?', 'Eliminar', 'guardar_eliminar_detalle()')
 }
 
 function guardar() {
     if (validar_formulario()) {
-        if (id_compra_cabecera === 0) {
+        if (id_venta_cabecera === 0) {
             guardar_agregar(false)
         } else {
             guardar_modificar()
@@ -97,13 +97,13 @@ function guardar() {
 }; 
 
 function guardar_detalle() {
-    if (id_compra_cabecera === 0) {
+    if (id_venta_cabecera === 0) {
         if (validar_formulario()) {
             guardar_agregar(true)
         }
     } else {
         if (validar_formulario_detalle()) {
-            if (id_compra_detalle === 0) {
+            if (id_venta_detalle === 0) {
                 guardar_agregar_detalle()
             } else {
                 guardar_modificar_detalle()
@@ -118,7 +118,7 @@ function validar_formulario() {
     const condicion = document.getElementById('condicion')
     const timbrado = document.getElementById('timbrado')
     const fiscal = document.getElementById('fiscal')
-    const proveedor = document.getElementById('proveedor')
+    const cliente = document.getElementById('cliente')
     if (fecha.value.trim() === '') {
         mensaje_formulario('#fecha','Fecha vacia.')
         ok = false
@@ -129,10 +129,10 @@ function validar_formulario() {
         mensaje_formulario('#timbrado','Timbrado vacio.')
         ok = false
     } else if (fiscal.value.trim() === '') {
-        mensaje_formulario('#fiscal','Fiscal vacio.')
+        mensaje_formulario('#fiscal','Nº Fiscal vacio.')
         ok = false
-    } else if (proveedor.value.trim() === '') {
-        mensaje_formulario('#proveedor','Cliente vacio.')
+    } else if (cliente.value.trim() === '') {
+        mensaje_formulario('#cliente','Cliente vacio.')
         ok = false
     }
     return ok
@@ -156,9 +156,9 @@ function validar_formulario_detalle() {
 };
 
 // llamadas al servidor
-async function buscar_compras() {
+async function buscar_ventas() {
     const buscar = document.getElementById('buscar').value
-    const url = `/api/v1/compras_cabeceras?buscar=${buscar}`
+    const url = `/api/v1/ventas_cabeceras?buscar=${buscar}`
     var parametros = {
         method: "GET",
         headers: {
@@ -169,17 +169,17 @@ async function buscar_compras() {
     var datos = await fetch(url, parametros)
     const json = await datos.json();
     console.log(json);
-    const tbody = document.getElementById('tbody-datos-compras');
+    const tbody = document.getElementById('tbody-datos-ventas');
     tbody.innerText = '';
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr datos-id_compra_cabecera=${json.datos[item].id} datos-id_proveedor=${json.datos[item].id_proveedor}>
+            let linea = `<tr datos-id_venta_cabecera=${json.datos[item].id} datos-id_cliente=${json.datos[item].id_cliente}>
                             <td>${json.datos[item].fecha.replace('T',' ').replace('.000Z','')}</td>
                             <td>${json.datos[item].condicion}</td>
                             <td>${json.datos[item].timbrado}</td>
                             <td>${json.datos[item].fiscal}</td>
-                            <td>${json.datos[item].nombre_proveedor}</td>
+                            <td>${json.datos[item].nombre_cliente}</td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
                                     <i class="fas fa-pencil-alt"></i>
@@ -198,8 +198,8 @@ async function buscar_compras() {
     tbody.innerHTML = lineas;
 }
 
-async function buscar_compras_detalle() {
-    let url = `/api/v1/compras_detalles/compra_cabecera/${id_compra_cabecera}`;
+async function buscar_ventas_detalle() {
+    let url = `/api/v1/ventas_detalles/venta_cabecera/${id_venta_cabecera}`;
     var parametros = {
         method: "GET",
         headers: {
@@ -210,15 +210,15 @@ async function buscar_compras_detalle() {
     var datos = await fetch(url, parametros)
     const json = await datos.json();
     console.log(json);
-    const tbody = document.getElementById('tbody-datos-compras-detalle');
+    const tbody = document.getElementById('tbody-datos-ventas-detalle');
     tbody.innerText = '';
     let lineas = '';
-    let total_compra = 0
+    let total_venta = 0
     if (json.status === 200) {
         for (let item in json.datos) {
             let total = json.datos[item].cantidad * json.datos[item].precio
-            total_compra += total
-            let linea = `<tr datos-id_compra_detalle=${json.datos[item].id} datos-id_producto=${json.datos[item].id_producto}>
+            total_venta += total
+            let linea = `<tr datos-id_venta_detalle=${json.datos[item].id} datos-id_producto=${json.datos[item].id_producto}>
                             <td class='text-end'>${json.datos[item].cantidad}</td>
                             <td>${json.datos[item].nombre_producto}</td>
                             <td class='text-end'>${json.datos[item].precio}</td>
@@ -239,11 +239,11 @@ async function buscar_compras_detalle() {
         lineas = `<tr><td colspan="5" class="text-center">No hay registros....</td></tr>`
     }
     tbody.innerHTML = lineas;
-    document.getElementById('total_compra').innerText = total_compra
+    document.getElementById('total_venta').innerText = total_venta
 }
 
 async function guardar_agregar(detalle) {
-    let url = '/api/v1/compras_cabeceras';
+    let url = '/api/v1/ventas_cabeceras';
     let fecha = document.getElementById('fecha').value;
     let condicion = document.getElementById('condicion').value;
     let timbrado = document.getElementById('timbrado').value;
@@ -253,7 +253,7 @@ async function guardar_agregar(detalle) {
         condicion: condicion,
         timbrado: timbrado,
         fiscal: fiscal,
-        id_proveedor: id_proveedor
+        id_cliente: id_cliente
     };
     var parametros = {
         method: "POST",
@@ -266,9 +266,9 @@ async function guardar_agregar(detalle) {
     var datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras();
+    buscar_ventas();
     if(detalle){
-        id_compra_cabecera = json.data.id_compra_cabecera
+        id_venta_cabecera = json.data.id_venta_cabecera
         if (validar_formulario_detalle()) {
             guardar_agregar_detalle()
         }
@@ -278,13 +278,14 @@ async function guardar_agregar(detalle) {
 };
 
 async function guardar_agregar_detalle() {
-    let url = `/api/v1/compras_detalles`;
+    let url = `/api/v1/ventas_detalles`;
     let cantidad = document.getElementById('cantidad').value;
     let precio = document.getElementById('precio').value;
     let data = {
-        id_compra_cabecera: id_compra_cabecera,
+        id_venta_cabecera: id_venta_cabecera,
         id_producto: id_producto,
         cantidad: cantidad,
+        costo: costo,
         precio: precio
     };
     var parametros = {
@@ -298,12 +299,12 @@ async function guardar_agregar_detalle() {
     var datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras_detalle();
+    buscar_ventas_detalle();
     agregar_linea_detalle();
 };
 
 async function guardar_modificar() {
-    let url = `/api/v1/compras_cabeceras/${id_compra_cabecera}`;
+    let url = `/api/v1/ventas_cabeceras/${id_venta_cabecera}`;
     let fecha = document.getElementById('fecha').value;
     let condicion = document.getElementById('condicion').value;
     let timbrado = document.getElementById('timbrado').value;
@@ -313,7 +314,7 @@ async function guardar_modificar() {
         condicion: condicion,
         timbrado: timbrado,
         fiscal: fiscal,
-        id_proveedor: id_proveedor
+        id_cliente: id_cliente
     };
     console.log(data);
     let parametros = {
@@ -327,18 +328,19 @@ async function guardar_modificar() {
     let datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras();
+    buscar_ventas();
     agregar_linea();
 };
 
 async function guardar_modificar_detalle() {
-    let url = `/api/v1/compras_detalles/${id_compra_detalle}`;
+    let url = `/api/v1/ventas_detalles/${id_venta_detalle}`;
     let cantidad = document.getElementById('cantidad').value;
     let precio = document.getElementById('precio').value;
     let data = {
-        id_compra_cabecera: id_compra_cabecera,
+        id_venta_cabecera: id_venta_cabecera,
         id_producto: id_producto,
         cantidad: cantidad,
+        costo: costo,
         precio: parseInt(precio)
     };
     console.log(data);
@@ -353,12 +355,12 @@ async function guardar_modificar_detalle() {
     let datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras_detalle();
+    buscar_ventas_detalle();
     agregar_linea_detalle();
 };
 
 async function guardar_eliminar() {
-    let url = `/api/v1/compras_cabeceras/${id_compra_cabecera_eliminar}`;
+    let url = `/api/v1/ventas_cabeceras/${id_venta_cabecera_eliminar}`;
     let data = {};
     let parametros = {
         method: "DELETE",
@@ -372,11 +374,11 @@ async function guardar_eliminar() {
     let datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras();
+    buscar_ventas();
 };
 
 async function guardar_eliminar_detalle() {
-    let url = `/api/v1/compras_detalles/${id_compra_detalle_eliminar}`;
+    let url = `/api/v1/ventas_detalles/${id_venta_detalle_eliminar}`;
     let data = {};
     let parametros = {
         method: "DELETE",
@@ -390,13 +392,13 @@ async function guardar_eliminar_detalle() {
     let datos = await fetch(url, parametros);
     const json = await datos.json();
     console.log(json);
-    buscar_compras_detalle();
+    buscar_ventas_detalle();
 };
 
-// PROVEEDOR
-async function buscar_proveedor() {
-    let buscar = document.getElementById('proveedor').value;
-    let url = `/api/v1/proveedores?buscar=${buscar}`;
+// CLIENTES
+async function buscar_cliente() {
+    let buscar = document.getElementById('cliente').value;
+    let url = `/api/v1/clientes?buscar=${buscar}`;
 
     var parametros = {
         method: 'GET',
@@ -409,12 +411,12 @@ async function buscar_proveedor() {
     var datos = await fetch(url, parametros)
     const json = await datos.json();
     console.log(json)
-    const tbody = document.getElementById('tbody-datos-elegir-proveedor');
+    const tbody = document.getElementById('tbody-datos-elegir-cliente');
     tbody.innerText = '';
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_proveedor=${json.datos[item].id} onclick="elegir_proveedor(this)">
+            let linea = `<tr data-id_cliente=${json.datos[item].id} onclick="elegir_cliente(this)">
                             <td>${json.datos[item].nombre}</td>
                          </tr>`;
             lineas += linea;
@@ -426,12 +428,12 @@ async function buscar_proveedor() {
     tbody.innerHTML = lineas;
 }
 
-function elegir_proveedor(xthis) {
-    id_proveedor = parseInt(xthis.getAttribute('data-id_proveedor'));
+function elegir_cliente(xthis) {
+    id_cliente = parseInt(xthis.getAttribute('data-id_cliente'));
     const tds = xthis.children;
     const nombre = tds[0].innerText;
-    document.getElementById('proveedor').value = nombre;
-    salir_buscador('modal_buscador-proveedor');
+    document.getElementById('cliente').value = nombre;
+    salir_buscador('modal_buscador-cliente');
 }
 
 // PRODUCTOS 
@@ -455,7 +457,7 @@ async function buscar_producto() {
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_producto=${json.datos[item].id} data-precio=${json.datos[item].precio} onclick="elegir_producto(this)">
+            let linea = `<tr data-id_producto=${json.datos[item].id} data-costo=${json.datos[item].costo} data-precio=${json.datos[item].precio} onclick="elegir_producto(this)">
                             <td>${json.datos[item].nombre}</td>
                          </tr>`;
             lineas += linea;
@@ -469,6 +471,7 @@ async function buscar_producto() {
 
 function elegir_producto(xthis) {
     id_producto = parseInt(xthis.getAttribute('data-id_producto'));
+    costo = parseInt(xthis.getAttribute('data-costo'));
     const precio = parseInt(xthis.getAttribute('data-precio'));
     const tds = xthis.children;
     const nombre = tds[0].innerText;

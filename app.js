@@ -18,6 +18,8 @@ const inventarios_cabecerasRouter = require('./routes/inventarios_cabecerasRoute
 const inventarios_detallesRouter = require('./routes/inventarios_detallesRouter');
 const compras_cabecerasRouter = require('./routes/compras_cabecerasRouter');
 const compras_detallesRouter = require('./routes/compras_detallesRouter');
+const ventas_cabecerasRouter = require('./routes/ventas_cabecerasRouter');
+const ventas_detallesRouter = require('./routes/ventas_detallesRouter');
 
 const app = express();
 
@@ -45,6 +47,8 @@ app.use('/api/v1/inventarios_cabeceras', inventarios_cabecerasRouter);
 app.use('/api/v1/inventarios_detalles', inventarios_detallesRouter);
 app.use('/api/v1/compras_cabeceras', compras_cabecerasRouter);
 app.use('/api/v1/compras_detalles', compras_detallesRouter);
+app.use('/api/v1/ventas_cabeceras', ventas_cabecerasRouter);
+app.use('/api/v1/ventas_detalles', ventas_detallesRouter);
 
 
 // catch 404 and forward to error handler
