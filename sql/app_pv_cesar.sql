@@ -196,3 +196,97 @@ CREATE TABLE app_pv_cesar.ventas_detalles (
   date_del datetime DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- TRIGGERS
+-- VENTAS DETALLES
+DELIMITER //
+CREATE TRIGGER ventas_cabeceras_total_delete AFTER DELETE ON ventas_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE ventas_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio),
+                total_costo = total_costo - (OLD.cantidad * OLD.costo)
+                WHERE id = OLD.id_venta_cabecera;
+       END;
+//
+
+CREATE TRIGGER ventas_cabeceras_total_update AFTER UPDATE ON ventas_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE ventas_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio),
+                total_costo = total_costo - (OLD.cantidad * OLD.costo)  
+                WHERE id = OLD.id_venta_cabecera;
+	       UPDATE ventas_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio),
+                total_costo = total_costo + (NEW.cantidad * NEW.costo)
+                WHERE id = NEW.id_venta_cabecera;
+       END;
+//
+
+CREATE TRIGGER ventas_cabeceras_total_insert AFTER INSERT ON ventas_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE ventas_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio),
+                total_costo = total_costo + (NEW.cantidad * NEW.costo) 
+                WHERE id = NEW.id_venta_cabecera;
+       END;
+//
+
+
+-- INVENTARIOS DETALLES
+DELIMITER //
+CREATE TRIGGER inventarios_cabeceras_total_delete AFTER DELETE ON inventarios_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE inventarios_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio),
+                total_costo = total_costo - (OLD.cantidad * OLD.costo)
+                WHERE id = OLD.id_inventario_cabecera;
+       END;
+//
+
+CREATE TRIGGER inventarios_cabeceras_total_update AFTER UPDATE ON inventarios_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE inventarios_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio),
+                total_costo = total_costo - (OLD.cantidad * OLD.costo)  
+                WHERE id = OLD.id_inventario_cabecera;
+	       UPDATE inventarios_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio),
+                total_costo = total_costo + (NEW.cantidad * NEW.costo)
+                WHERE id = NEW.id_inventario_cabecera;
+       END;
+//      
+
+CREATE TRIGGER inventarios_cabeceras_total_insert AFTER INSERT ON inventarios_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE inventarios_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio),
+                total_costo = total_costo + (NEW.cantidad * NEW.costo) 
+                WHERE id = NEW.id_inventario_cabecera;
+       END;
+//
+
+-- COMPRAS DETALLES
+DELIMITER //
+CREATE TRIGGER compras_cabeceras_total_delete AFTER DELETE ON compras_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE compras_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio)
+                WHERE id = OLD.id_compra_cabecera;
+       END;
+//
+
+CREATE TRIGGER compras_cabeceras_total_update AFTER UPDATE ON compras_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE compras_cabeceras SET total_precio = total_precio - (OLD.cantidad * OLD.precio)
+                WHERE id = OLD.id_compra_cabecera;
+	       UPDATE compras_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio)
+                WHERE id = NEW.id_compra_cabecera;
+       END;
+//
+
+CREATE TRIGGER compras_cabeceras_total_insert AFTER INSERT ON compras_detalles
+       FOR EACH ROW
+       BEGIN
+	       UPDATE compras_cabeceras SET total_precio = total_precio + (NEW.cantidad * NEW.precio)
+                WHERE id = NEW.id_compra_cabecera;
+       END;
+//
