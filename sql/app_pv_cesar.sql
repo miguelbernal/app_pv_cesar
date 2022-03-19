@@ -290,3 +290,45 @@ CREATE TRIGGER compras_cabeceras_total_insert AFTER INSERT ON compras_detalles
                 WHERE id = NEW.id_compra_cabecera;
        END;
 //
+
+-- VISTAS
+-- VENTAS MESES
+create or replace
+algorithm = UNDEFINED view `app_pv_cesar`.`ventas_meses` as
+select
+    month(`vc`.`fecha`) as `mes`,
+    year(`vc`.`fecha`) as `anio`,
+    sum(`vc`.`total_costo`) as `total_costo`,
+    sum(`vc`.`total_precio`) as `total_precio`
+from
+    `app_pv_cesar`.`ventas_cabeceras` `vc`
+group by
+    month(`vc`.`fecha`),
+    year(`vc`.`fecha`)
+
+-- INVENTARIOS MESES
+create or replace
+algorithm = UNDEFINED view `app_pv_cesar`.`inventarios_meses` as
+select
+    month(`vc`.`fecha`) as `mes`,
+    year(`vc`.`fecha`) as `anio`,
+    sum(`vc`.`total_costo`) as `total_costo`,
+    sum(`vc`.`total_precio`) as `total_precio`
+from
+    `app_pv_cesar`.`inventarios_cabeceras` `vc`
+group by
+    month(`vc`.`fecha`),
+    year(`vc`.`fecha`)
+
+-- COMPRAS MESES
+create or replace
+algorithm = UNDEFINED view `app_pv_cesar`.`compras_meses` as
+select
+    month(`vc`.`fecha`) as `mes`,
+    year(`vc`.`fecha`) as `anio`,
+    sum(`vc`.`total_precio`) as `total_precio`
+from
+    `app_pv_cesar`.`compras_cabeceras` `vc`
+group by
+    month(`vc`.`fecha`),
+    year(`vc`.`fecha`)
