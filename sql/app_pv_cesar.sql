@@ -332,3 +332,31 @@ from
 group by
     month(`vc`.`fecha`),
     year(`vc`.`fecha`)
+
+-- NUEVAS TABLAS -----------------------------------
+-- SUCURSALES
+CREATE TABLE app_pv_cesar.sucursales (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  direccion varchar(100) NOT NULL,
+  telefono varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- DEPOSITOS
+CREATE TABLE app_pv_cesar.depositos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  id_sucursal int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
