@@ -34,10 +34,21 @@ CREATE TABLE app_pv_cesar.submenus (
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+CREATE TABLE app_pv_cesar.modulos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 CREATE TABLE app_pv_cesar.formularios (
   id int(11) NOT NULL AUTO_INCREMENT,
   nombre varchar(100) NOT NULL,
   url varchar(100) NOT NULL,
+  id_modulo int(11) DEFAULT 1,
   id_submenu int(11) DEFAULT 1,
   usuario_id int(11) DEFAULT 1,
   date_add datetime DEFAULT current_timestamp(),
@@ -359,4 +370,95 @@ CREATE TABLE app_pv_cesar.depositos (
   date_del datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- TARJETAS
+CREATE TABLE app_pv_cesar.tarjetas (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- BANCOS
+CREATE TABLE app_pv_cesar.bancos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) NOT NULL,
+  direccion varchar(100) NOT NULL,
+  telefono varchar(50) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+
+-- CAJAS
+CREATE TABLE app_pv_cesar.cajas (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  id_sucursal int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- CONCEPTOS MOVIMIENTOS BANCARIOS (depositos, chequera, saldo minimo)
+CREATE TABLE app_pv_cesar.conceptos_movimientos_bancarios (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- TIPO DE CUENTA BANCARIA (Caja de Ahorro, Cuenta corriente)
+CREATE TABLE app_pv_cesar.tipos_cuentas_bancarias (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ESTADOS DE CUENTA BANCARIA (Activo, Cerrado)
+CREATE TABLE app_pv_cesar.estados_cuentas_bancarias (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- CUENTAS BANCARIAS 
+CREATE TABLE app_pv_cesar.cuentas_bancarias (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  numero_cuenta varchar(100) DEFAULT NULL,
+  titular_cuenta varchar(100) DEFAULT NULL,
+  id_tipo_cuenta_bancaria  int(11) DEFAULT 1,
+  id_banco int(11) DEFAULT 1,
+  id_estado_cuenta_bancaria int(11) DEFAULT 1,
+  saldo int(11) DEFAULT 0,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+
+
 

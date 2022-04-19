@@ -129,3 +129,53 @@
 	color: #f513b1;
 	font-weight: bold;
 }
+
+/* MENU TREE */
+/* Remove default bullets */
+ul, .sidenav_options {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+.sidenav__options {
+  margin: 0;
+  padding: 0;
+}
+
+.sidenav__options .form:hover{
+  font-weight: bold;
+}
+
+.sidenav__options .caret:hover{
+  font-weight: bold;
+  color: gray;
+}
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\1F86A";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+  cursor: pointer;
+}

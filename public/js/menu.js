@@ -5,13 +5,13 @@ let id_submenu = 0;
 
 buscar_permisos();
 
-document.getElementById('menu-boton').addEventListener('click', function(){
+document.getElementById('menu-boton').addEventListener('click', function () {
     const elemento = document.getElementsByClassName('menu-admin')[0];
     const panel_main = document.getElementsByClassName('panel-main')[0];
-    if(elemento.classList.contains('menu-oculto')){
+    if (elemento.classList.contains('menu-oculto')) {
         elemento.classList.remove('menu-oculto');
         panel_main.classList.remove('panel-main-oculto');
-    }else{
+    } else {
         elemento.className += ' menu-oculto';
         panel_main.className += ' panel-main-oculto';
     }
@@ -32,46 +32,59 @@ async function buscar_permisos() {
 
     var datos = await fetch(url, parametros)
     const json = await datos.json();
+    const permisos = json.data
     console.log(json)
-    let menu = "";
-    if (json.status === 200) {
-        const imagen = `./img/usuarios/${json.usuario.id}.jpg`
-        document.getElementById('img-usuario-menubar').setAttribute('src',imagen)
-        document.getElementById('nombre-usuario-menubar').innerHTML = json.usuario.nombre
-        let g_id_submenu = 0;
-        for (let item in json.data) {
-            let id_submenu = json.data[item].id_submenu;
-            if (g_id_submenu !== id_submenu){
-                if (g_id_submenu !==0){
-                    menu += `</ul>`;
-                    menu += `</div>`;
-                    menu += `</div>`;
-                    menu += `</div>`;
-                }
-                menu += `<div class="accordion-item">`;
-                menu += `<h2 class="accordion-header" id="heading${id_submenu}">`;
-                menu += ` <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapse${id_submenu}" aria-expanded="false" aria-controls="collapse${id_submenu}">`;
-                menu += `${json.data[item].nombre_submenu}`;
-                menu += `</button>`;
-                menu += `</h2>`;
-                menu += `<div id="collapse${id_submenu}" class="accordion-collapse collapse" aria-labelledby="heading${id_submenu}"
-                data-bs-parent="#accordionExample">`;
-                menu += `<div class="accordion-body">`;
-                menu += `<ul class="list-group">`;
-                g_id_submenu = id_submenu;
+    generar_menu(permisos)
+    abrir_opciones_menu()
+}
+
+function generar_menu(permisos) {
+    var nav = "";
+    var modulo_anterior = 0;
+    var submenu_anterior = 0;
+    permisos.forEach(permiso => {
+        if (modulo_anterior === 0) {
+            nav += `<li><span class="caret caret-down">${permiso.nombre_modulo}</span>
+                  <ul class="nested active">`
+        } else if (modulo_anterior !== permiso.id_modulo) {
+            nav += `</ul>
+                  </li>
+                    </ul>
+                      </li>
+                        <li><span class="caret caret-down">${permiso.nombre_modulo}</span>
+                          <ul class="nested active">`
+        } 
+
+        if (submenu_anterior !== permiso.id_submenu || modulo_anterior !== permiso.id_modulo) {
+            if (submenu_anterior !== permiso.id_submenu && modulo_anterior === permiso.id_modulo && modulo_anterior !== 0) {
+                nav += `</li></ul>`
             }
-            menu += `<li class="list-group-item list-group-item-action" onclick="cargar_formulario('panel-lista','${json.data[item].url}','')">${json.data[item].nombre_formulario}</li>`;
-               
+            nav += `<li><span class="caret caret-down">${permiso.nombre_submenu}</span>
+                  <ul class="nested active">`
         }
+        nav += `<li class="form" onclick="cargar_formulario('panel-lista','${permiso.url}','ocultar_busqueda()')">${permiso.nombre_formulario}</li>`
+        modulo_anterior = permiso.id_modulo
+        submenu_anterior = permiso.id_submenu
+        console.log(modulo_anterior, submenu_anterior)
+    });
+    if (nav !== "") {
+        nav += `</ul>
+              </li>
+            </ul>
+          </li>`
     } else {
-        location.href = '../admin'
+        nav += `<h5 class="text-center" style="background-color:red; color: white; padding: 10px; border-radius: 10px; margin-left: -30px">No tiene permisos</h5>`
     }
-    if (menu !== "") {
-        menu += `</ul>`;
-        menu += `</div>`;
-        menu += `</div>`;
-        menu += `</div>`;
+    document.getElementById("nav_generado").innerHTML = nav;
+}
+
+function abrir_opciones_menu() {
+    const toggler = document.getElementsByClassName("caret");
+
+    for (i = 0; i < toggler.length; i++) {
+        toggler[i].addEventListener("click", function () {
+            this.parentElement.querySelector(".nested").classList.toggle("active");
+            this.classList.toggle("caret-down");
+        });
     }
-    document.getElementById('accordion_menu').innerHTML = menu;
 }
