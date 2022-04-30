@@ -20,6 +20,14 @@ const compras_cabecerasRouter = require('./routes/compras_cabecerasRouter');
 const compras_detallesRouter = require('./routes/compras_detallesRouter');
 const ventas_cabecerasRouter = require('./routes/ventas_cabecerasRouter');
 const ventas_detallesRouter = require('./routes/ventas_detallesRouter');
+const sucursalesRouter = require('./routes/sucursalesRouter');
+const depositosRouter = require('./routes/depositosRouter');
+const tarjetasRouter = require('./routes/tarjetasRouter');
+const bancosRouter = require('./routes/bancosRouter');
+const cajasRouter = require('./routes/cajasRouter');
+const conceptosMovimientosBancariosRouter = require('./routes/conceptosMovimientosBancariosRouter');
+const tiposCuentasBancariasRouter = require('./routes/tiposCuentasBancariasRouter');
+const estadosCuentasBancariasRouter = require('./routes/estadosCuentasBancariasRouter');
 
 const app = express();
 
@@ -49,7 +57,14 @@ app.use('/api/v1/compras_cabeceras', compras_cabecerasRouter);
 app.use('/api/v1/compras_detalles', compras_detallesRouter);
 app.use('/api/v1/ventas_cabeceras', ventas_cabecerasRouter);
 app.use('/api/v1/ventas_detalles', ventas_detallesRouter);
-
+app.use('/api/v1/sucursales', sucursalesRouter);
+app.use('/api/v1/depositos', depositosRouter);
+app.use('/api/v1/tarjetas', tarjetasRouter);
+app.use('/api/v1/bancos', bancosRouter);
+app.use('/api/v1/cajas', cajasRouter);
+app.use('/api/v1/conceptosMovimientosBancarios', conceptosMovimientosBancariosRouter);
+app.use('/api/v1/tiposCuentasBancarias', tiposCuentasBancariasRouter);
+app.use('/api/v1/estadosCuentasBancarias', estadosCuentasBancariasRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

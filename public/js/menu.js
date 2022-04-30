@@ -2,6 +2,9 @@ let id_usuario = 0;
 let id_rol = 0;
 let id_formulario = 0;
 let id_submenu = 0;
+let id_cuenta_bancaria = 0;
+let id_tipo_cuenta_bancaria = 0;
+
 
 buscar_permisos();
 

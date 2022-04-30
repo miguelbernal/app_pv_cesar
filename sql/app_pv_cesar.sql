@@ -457,6 +457,18 @@ CREATE TABLE app_pv_cesar.cuentas_bancarias (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- MONEDAS
+CREATE TABLE app_pv_cesar.monedas (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  simbolo varchar(5) DEFAULT NULL,
+  compra  decimal(11,2) DEFAULT 1,
+  venta decimal(11,2) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 
