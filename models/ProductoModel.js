@@ -9,7 +9,7 @@ module.exports = class ProductoModel {
 
     // Get Todos los Productos
     static getAll = async (buscar) => {
-        const sql = `SELECT id, nombre, costo, precio, stock 
+        const sql = `SELECT id, nombre, costo, precio, stock, iva 
                             FROM productos 
                             WHERE nombre LIKE ?
                             ORDER BY id DESC`
@@ -18,15 +18,15 @@ module.exports = class ProductoModel {
     };
 
     // Agregar
-    static add = async (nombre, costo, precio, stock) => {
-        const sql = `INSERT INTO productos(nombre, costo, precio, stock) VALUES(?,?,?,?)`
-        return await pool.query(sql, [nombre, costo, precio, stock])
+    static add = async (nombre, costo, precio, stock, iva) => {
+        const sql = `INSERT INTO productos(nombre, costo, precio, stock, iva) VALUES(?,?,?,?,?)`
+        return await pool.query(sql, [nombre, costo, precio, stock,iva])
     };
 
     // Modificar
-    static update = async (nombre, costo, precio, stock, id_producto) => {
-        const sql = `UPDATE productos SET nombre=?, costo=?, precio=?, stock=? WHERE id=?`
-        return await pool.query(sql, [nombre, costo, precio, stock, id_producto])
+    static update = async (nombre, costo, precio, stock, iva, id_producto) => {
+        const sql = `UPDATE productos SET nombre=?, costo=?, precio=?, stock=?, iva=? WHERE id=?`
+        return await pool.query(sql, [nombre, costo, precio, stock, iva, id_producto])
     };
 
     // Eliminar

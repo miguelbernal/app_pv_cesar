@@ -11,13 +11,16 @@ function inicializar_formulario(){
 
 function editar_linea(xthis){
     id_formulario = xthis.parentElement.parentElement.getAttribute('data-id_formulario')
+    id_modulo = xthis.parentElement.parentElement.getAttribute('data-id_modulo')
     id_submenu = xthis.parentElement.parentElement.getAttribute('data-id_submenu')
     const tds = xthis.parentElement.parentElement.children
     const nombre = tds[0].innerText
     const url = tds[1].innerText
-    const submenu = tds[2].innerText
+    const modulo = tds[2].innerText
+    const submenu = tds[3].innerText
     document.getElementById('nombre').value = nombre
     document.getElementById('url').value = url
+    document.getElementById('modulo').value = modulo
     document.getElementById('submenu').value = submenu
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-pencil-alt"></i> Modificar'
@@ -25,9 +28,11 @@ function editar_linea(xthis){
 
 function agregar_linea(){
     id_formulario = 0
+    id_modulo = 0
     id_submenu = 0
     document.getElementById('nombre').value = ''
     document.getElementById('url').value = ''
+    document.getElementById('modulo').value = ''
     document.getElementById('submenu').value = ''
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar'
@@ -52,6 +57,7 @@ function validar_formulario(){
     let ok = true
     const nombre = document.getElementById('nombre')
     const url = document.getElementById('url')
+    limpiar_mensaje_formulario()
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre','Nombre vacio.')
         ok = false
@@ -80,9 +86,10 @@ async function buscar_formularios() {
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_formulario=${json.datos[item].id} data-id_submenu=${json.datos[item].id_submenu}>
+            let linea = `<tr data-id_formulario=${json.datos[item].id} data-id_modulo=${json.datos[item].id_modulo} data-id_submenu=${json.datos[item].id_submenu}>
                             <td>${json.datos[item].nombre}</td>
                             <td>${json.datos[item].url}</td>
+                            <td>${json.datos[item].nombre_modulo}</td>
                             <td>${json.datos[item].nombre_submenu}</td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -110,6 +117,7 @@ async function guardar_agregar(){
     var data = {
         nombre: nombre,
         url: url,
+        id_modulo: id_modulo,
         id_submenu: id_submenu
     };
 
@@ -136,6 +144,7 @@ async function guardar_modificar(){
     var data = {
         nombre: nombre,
         url: url,
+        id_modulo: id_modulo,
         id_submenu: id_submenu
     };
 
@@ -171,6 +180,46 @@ async function guardar_eliminar(){
     var datos = await fetch(url2, parametros)
     const json = await datos.json();
     buscar_formularios();
+}
+
+// Modulos
+async function buscar_modulo() {
+    let buscar = document.getElementById('modulo').value;
+    let url2 = `/api/v1/modulos?buscar=${buscar}`;
+
+    var parametros = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    var datos = await fetch(url2, parametros)
+    const json = await datos.json();
+    const tbody = document.getElementById('tbody-datos-elegir-modulo');
+    tbody.innerText = '';
+    let lineas = '';
+    if (json.status === 200) {
+        for (let item in json.datos) {
+            let linea = `<tr data-id_modulo=${json.datos[item].id} onclick="elegir_modulo(this)">
+                            <td>${json.datos[item].nombre}</td>
+                         </tr>`;
+            lineas += linea;
+        }
+    }
+    if (lineas === '') {
+        lineas = `<tr><td class="text-center">No existen registros ...</td></tr>`;
+    }
+    tbody.innerHTML = lineas;
+}
+
+function elegir_modulo(xthis) {
+    id_modulo = parseInt(xthis.getAttribute('data-id_modulo'));
+    const tds = xthis.children;
+    const nombre = tds[0].innerText;
+    document.getElementById('modulo').value = nombre;
+    salir_buscador('modal-buscador-modulo');
 }
 
 // Submenus

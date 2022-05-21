@@ -37,7 +37,7 @@
                         <span class="input-group-text texto-campo">
                             Timbrado
                         </span>
-                        <input id="timbrado" name="timbrado" placeholder="123456789" class="form-control" type="text">
+                        <input id="timbrado" name="timbrado" placeholder="123456789" autocomplete="off" class="form-control" type="text">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -45,7 +45,7 @@
                         <span class="input-group-text texto-campo">
                             Nº Fiscal
                         </span>
-                        <input id="fiscal" name="fiscal" placeholder="001-001-1234567" class="form-control" type="text">
+                        <input id="fiscal" name="fiscal" placeholder="001-001-1234567" autocomplete="off" class="form-control" type="text">
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         <span class="input-group-text texto-campo">
                             Cliente
                         </span>
-                        <input id="cliente" name="cliente" placeholder="Cliente" class="form-control" type="text"
+                        <input id="cliente" name="cliente" placeholder="Cliente" autocomplete="off" class="form-control" type="text"
                             onkeyup="buscar_lista('cliente', 'modal_buscador-cliente', 'elegir_cliente(this)', 'buscar_cliente()', 'panel-lista')">
                         <span class="input-group-text">
                             <i class="fas fa-search"></i>
@@ -71,7 +71,7 @@
                             <span class="input-group-text texto-campo">
                                 Producto
                             </span>
-                            <input id="producto" name="producto" placeholder="Producto" class="form-control" type="text"
+                            <input id="producto" name="producto" placeholder="Producto" autocomplete="off" class="form-control" type="text"
                                 onkeyup="buscar_lista('producto', 'modal_buscador-producto', 'elegir_producto(this)', 'buscar_producto()', 'panel-lista')">
                             <span class="input-group-text">
                                 <i class="fas fa-search"></i>
@@ -83,7 +83,7 @@
                             <span class="input-group-text texto-campo">
                                 Cantidad
                             </span>
-                            <input id="cantidad" name="cantidad" placeholder="Producto" class="form-control text-end"
+                            <input id="cantidad" name="cantidad" placeholder="cantidad" autocomplete="off" class="form-control text-end"
                                 type="number" value="1" min="1" onchange="calcular_total_linea_detalle()">
                         </div>
                     </div>

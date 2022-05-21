@@ -41,6 +41,7 @@ function guardar(){
 function validar_formulario(){
     let ok = true
     const nombre = document.getElementById('nombre')
+    limpiar_mensaje_formulario()
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre','Nombre vacio.')
         ok = false

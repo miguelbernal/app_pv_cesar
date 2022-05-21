@@ -3,12 +3,12 @@ inicializar_formulario();
 function inicializar_formulario() {
     focus('#nombre')
     siguiente_campo('#nombre', '#boton-guardar', true)
-    buscar_conceptosMovimientosBancarios()
-    id_conceptoMovimientoBancario = 0
+    buscar_conceptos_movimientos_bancarios()
+    id_concepto_movimiento_bancario = 0
 }
 
 function editar_linea(xthis){
-    id_conceptoMovimientoBancario = xthis.parentElement.parentElement.getAttribute('data-id_conceptoMovimientoBancario')
+    id_concepto_movimiento_bancario = xthis.parentElement.parentElement.getAttribute('data-id_concepto_movimiento_bancario')
     const tds = xthis.parentElement.parentElement.children
     const nombre = tds[0].innerText
     document.getElementById('nombre').value = nombre
@@ -17,20 +17,20 @@ function editar_linea(xthis){
 }
 
 function agregar_linea(){
-    id_conceptoMovimientoBancario = 0;
+    id_concepto_movimiento_bancario = 0;
     document.getElementById('nombre').value = ''
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="bi bi-plus-lg"></i> Agregar'
 }
 
 function eliminar_linea(xthis){
-    id_conceptoMovimientoBancario_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_conceptoMovimientoBancario')
+    id_concepto_movimiento_bancario_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_concepto_movimiento_bancario')
     mensaje_confirmar("Estas seguro de eliminar este registro?", "Eliminar", "guardar_eliminar()")
 }
 
 function guardar() {
     if(validar_formulario()) {
-        if(id_conceptoMovimientoBancario === 0){
+        if(id_concepto_movimiento_bancario === 0){
             guardar_agregar();
         } else {
             guardar_modificar();
@@ -41,6 +41,7 @@ function guardar() {
 function validar_formulario() {
     let ok = true
     const nombre = document.getElementById('nombre')
+    limpiar_mensaje_formulario()
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre','Nombre vacio.')
         ok = false
@@ -49,9 +50,9 @@ function validar_formulario() {
 }
 
 //Llamar al servidor
-async function buscar_conceptosMovimientosBancarios() {
+async function buscar_conceptos_movimientos_bancarios() {
     let buscar = document.getElementById('buscar').value;
-    let url = `/api/v1/conceptosMovimientosBancarios?buscar=${buscar}`;
+    let url = `/api/v1/conceptos_movimientos_bancarios?buscar=${buscar}`;
     var paramentros = {
         method:"GET",
         headers: {
@@ -67,7 +68,7 @@ async function buscar_conceptosMovimientosBancarios() {
     let lineas = '';
     if(json.status === 200) {
         for(let item in json.datos) {
-            let linea = `<tr data-id_conceptoMovimientoBancario=${json.datos[item].id}>
+            let linea = `<tr data-id_concepto_movimiento_bancario=${json.datos[item].id}>
                         <td>${json.datos[item].nombre}</td>
                         <td class="text-center">
             <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -89,7 +90,7 @@ async function buscar_conceptosMovimientosBancarios() {
 }
 
 async function guardar_agregar(){
-    let url = '/api/v1/conceptosMovimientosBancarios';
+    let url = '/api/v1/conceptos_movimientos_bancarios';
     let nombre = document.getElementById('nombre').value;
    
     var data = {
@@ -108,12 +109,12 @@ async function guardar_agregar(){
     var datos = await fetch(url, paramentros)
     const json = await datos.json();
     //console.log(json);
-    buscar_conceptosMovimientosBancarios();
+    buscar_conceptos_movimientos_bancarios();
     agregar_linea();
 }
 
 async function guardar_modificar(){
-    let url = `api/v1/conceptosMovimientosBancarios/${id_conceptoMovimientoBancario}`;
+    let url = `api/v1/conceptos_movimientos_bancarios/${id_concepto_movimiento_bancario}`;
     let nombre = document. getElementById('nombre').value;
 
     var data = {
@@ -132,12 +133,12 @@ async function guardar_modificar(){
     var datos = await fetch(url, paramentros)
     const json = await datos.json();
   //  console.log(json);
-    buscar_conceptosMovimientosBancarios();
+    buscar_conceptos_movimientos_bancarios();
     agregar_linea();
 }
 
 async function guardar_eliminar(){
-    let url = `api/v1/conceptosMovimientosBancarios/${id_conceptoMovimientoBancario_eliminar}`;
+    let url = `api/v1/conceptos_movimientos_bancarios/${id_concepto_movimiento_bancario_eliminar}`;
 
     var data = {};
 
@@ -152,7 +153,7 @@ async function guardar_eliminar(){
     var datos = await fetch(url, paramentros)
     const json = await datos.json();
    // console.log(json);
-    buscar_conceptosMovimientosBancarios();
+    buscar_conceptos_movimientos_bancarios();
 }
 
 

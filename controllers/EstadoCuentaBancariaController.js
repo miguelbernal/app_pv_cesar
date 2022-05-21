@@ -16,7 +16,7 @@ exports.insert = async(req, res, next) => {
     const result = await EstadoCuentaBancariaModel.add(nombre)
     if (result.affectedRows > 0) {
         const  data = {
-            id_estadoCuentaBancaria: result.insertId,
+            id_estado_cuenta_bancaria: result.insertId,
             nombre: nombre
         }
         datos = { status: 200, data: data};
@@ -26,12 +26,12 @@ exports.insert = async(req, res, next) => {
 
 exports.update = async(req, res, next) => {
     const nombre = req.body.nombre
-    const id_estadoCuentaBancaria = req.params.id
+    const id_estado_cuenta_bancaria = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await EstadoCuentaBancariaModel.update(nombre, id_estadoCuentaBancaria)
+    const result = await EstadoCuentaBancariaModel.update(nombre, id_estado_cuenta_bancaria)
     if (result.affectedRows > 0) {
         const  data = {
-            id_estadoCuentaBancaria: id_estadoCuentaBancaria,
+            id_estado_cuenta_bancaria: id_estado_cuenta_bancaria,
             nombre: nombre
         }
         datos = { status: 200, data: data};
@@ -40,12 +40,12 @@ exports.update = async(req, res, next) => {
 }
 
 exports.delete = async(req, res, next) => {
-    const id_estadoCuentaBancaria = req.params.id
+    const id_estado_cuenta_bancaria = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await EstadoCuentaBancariaModel.delete(id_estadoCuentaBancaria)
+    const result = await EstadoCuentaBancariaModel.delete(id_estado_cuenta_bancaria)
     if (result.affectedRows > 0) {
         const  data = {
-            id_estadoCuentaBancaria: id_estadoCuentaBancaria,
+            id_estado_cuenta_bancaria: id_estado_cuenta_bancaria,
         }
         datos = { status: 200, data: data};
     }

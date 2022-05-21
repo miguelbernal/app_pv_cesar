@@ -23,6 +23,12 @@ function siguiente_campo(actual, siguiente, preventDefault){
     })
 }
 
+function limpiar_mensaje_formulario(){
+    let mensaje = document.getElementById('panel-formulario-mensaje')
+    mensaje.classList.add("d-none")
+    mensaje.innerHTML = ''
+}
+
 function mensaje(texto, funcion){
     const modal = `
     <div class="modal" id="myModal" tabindex="-1">
@@ -370,4 +376,12 @@ function getBase64(file) {
         reader.onload = () => resolve(reader.result);
         reader.onerror = error => reject(error);
     });
+}
+
+function ocultar_busqueda(){
+    console.log('ocultar_busqueda')
+}
+
+function mostrar_nombre_programa(programa){
+    document.getElementById('navbar_nombre_formulario').innerHTML = programa
 }

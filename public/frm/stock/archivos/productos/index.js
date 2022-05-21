@@ -7,7 +7,8 @@ function inicializar_formulario(){
     siguiente_campo('#nombre','#costo', false)
     siguiente_campo('#costo','#precio', false)
     siguiente_campo('#precio','#stock', false)
-    siguiente_campo('#stock','#boton-guardar', true)
+    siguiente_campo('#stock','#iva', false)
+    siguiente_campo('#iva','#boton-guardar', true)
     buscar_productos()
     id_producto = 0
 }
@@ -20,11 +21,13 @@ function editar_linea(xthis){
     const costo = tds[1].innerText
     const precio = tds[2].innerText
     const stock = tds[3].innerText
+    const iva = tds[4].innerText
     const img = 'img/productos/'+id_producto+'.jpg'
     document.getElementById('nombre').value = nombre
     document.getElementById('costo').value = costo
     document.getElementById('precio').value = precio
     document.getElementById('stock').value = stock
+    document.getElementById('iva').value = iva
     document.getElementById('foto-img').setAttribute('src',img)
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-pencil-alt"></i> Modificar'
@@ -37,6 +40,7 @@ function agregar_linea(){
     document.getElementById('costo').value = ''
     document.getElementById('precio').value = ''
     document.getElementById('stock').value = ''
+    document.getElementById('iva').value = ''
     document.getElementById('foto-img').setAttribute('src','img/productos/0.jpg')
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar'
@@ -75,6 +79,9 @@ function validar_formulario(){
         ok = false
     } else if (stock.value.trim() === '') {
         mensaje_formulario('#stock','Stock vacio.')
+        ok = false
+    } else if (iva.value.trim() === '') {
+        mensaje_formulario('#iva','IVA vacio.')
         ok = false
     }
     return ok
@@ -119,6 +126,7 @@ async function buscar_productos() {
                             <td class="text-end">${json.datos[item].costo}</td>
                             <td class="text-end">${json.datos[item].precio}</td>
                             <td class="text-end">${json.datos[item].stock}</td>
+                            <td class="text-end">${json.datos[item].iva}</td>
                             <td class="text-center">${foto}</td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -144,12 +152,13 @@ async function guardar_agregar(){
     let costo = document.getElementById('costo').value;
     let precio = document.getElementById('precio').value;
     let stock = document.getElementById('stock').value;
-
+    let iva = document.getElementById('iva').value;
     var data = {
         nombre: nombre,
         costo: costo,
         precio: precio,
         stock: stock,
+        iva: iva,
         foto: foto,
         modificado: modificado
     };
@@ -175,12 +184,13 @@ async function guardar_modificar(){
     let costo = document.getElementById('costo').value;
     let precio = document.getElementById('precio').value;
     let stock = document.getElementById('stock').value;
-
+    let iva = document.getElementById('iva').value;
     var data = {
         nombre: nombre,
         costo: costo,
         precio: precio,
         stock: stock,
+        iva: iva,
         foto: foto,
         modificado: modificado
     };

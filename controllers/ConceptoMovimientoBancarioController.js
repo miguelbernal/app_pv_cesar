@@ -17,7 +17,7 @@ exports.insert = async (req, res, next) => {
     const result = await  ConceptoMovimientoBancarioModel.add(nombre, )
     if (result.affectedRow > 0) {
         const data = {
-            id_conceptoMovimientoBancario: result.insertId,
+            id_concepto_movimiento_bancario: result.insertId,
             nombre: nombre,
         }
         datos = { status: 200, datos: data }
@@ -27,12 +27,12 @@ exports.insert = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     const nombre = req.body.nombre
-    const id_conceptoMovimientoBancario = req.params.id
+    const id_concepto_movimiento_bancario = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await  ConceptoMovimientoBancarioModel.update(nombre, id_conceptoMovimientoBancario)
+    const result = await  ConceptoMovimientoBancarioModel.update(nombre, id_concepto_movimiento_bancario)
     if (result.affectedRow > 0) {
         const data = {
-            id_conceptoMovimientoBancario: id_conceptoMovimientoBancario,
+            id_concepto_movimiento_bancario: id_concepto_movimiento_bancario,
             nombre: nombre,
         }
         datos = { status: 200, data: data };
@@ -41,12 +41,12 @@ exports.update = async (req, res, next) => {
 }
 
 exports.delete = async (req, res, next) => {
-    const id_conceptoMovimientoBancario = req.params.id
+    const id_concepto_movimiento_bancario = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await  ConceptoMovimientoBancarioModel.delete(id_conceptoMovimientoBancario)
+    const result = await  ConceptoMovimientoBancarioModel.delete(id_concepto_movimiento_bancario)
     if (result.affectedRows > 0) {
         const data = {
-            id_conceptoMovimientoBancario: id_conceptoMovimientoBancario,
+            id_concepto_movimiento_bancario: id_concepto_movimiento_bancario,
         }
         datos = { status: 200, data: data };
     }
@@ -54,10 +54,10 @@ exports.delete = async (req, res, next) => {
 }
 
 exports.list = async (req, res, next) => {
-    const desde_conceptoMovimientoBancario = req.query.desde_conceptoMovimientoBancario
-    const hasta_conceptoMovimientoBancario = req.query.hasta_conceptoMovimientoBancario
+    const desde_concepto_movimiento_bancario = req.query.desde_concepto_movimiento_bancario
+    const hasta_concepto_movimiento_bancario = req.query.hasta_concepto_movimiento_bancario
     let datos = { status: 404, datos: [] }
-    const result = await  ConceptoMovimientoBancarioModel.list(desde_conceptoMovimientoBancario, hasta_conceptoMovimientoBancario)
+    const result = await  ConceptoMovimientoBancarioModel.list(desde_concepto_movimiento_bancario, hasta_concepto_movimiento_bancario)
     const pdf = new FPDF('L', 'mm', 'A4');
     pdf.AliasNbPages = '{nb}';
     pdf.Header = function Header() {
@@ -66,9 +66,9 @@ exports.list = async (req, res, next) => {
         pdf.SetFont('helvetica', 'B', 8);
         pdf.Image('public/img/logo_pdf.jpg', 10, 10, -300)
         pdf.Cell(0, 6, 'LISTADO DE MOVIMIENTOS BANCARIOS', 0, 0, 'C');
-        pdf.Cell(0, 6, 'LISTADO: CONCEPTOSMOVIMIENTOSBANCARIOS', 0, 0, 'R');
+        pdf.Cell(0, 6, 'LISTADO: CONCEPTOS_MOVIMIENTOS_BANCARIOS', 0, 0, 'R');
         pdf.Ln(5);
-        pdf.Cell(0, 6, `DESDE CONCEPTOSMOVIMIENTOSBANCARIOS: ${desde_conceptomovimientobancario} - HASTA CONCEPTOSMOVIMIENTOSBANCARIOS: ${hasta_conceptomovimientobancario}`, 0, 0, 'C');
+        pdf.Cell(0, 6, `DESDE CONCEPTOS_MOVIMIENTOS_BANCARIOS: ${desde_concepto_movimiento_bancario} - HASTA CONCEPTOS_MOVIMIENTOS_BANCARIOS: ${hasta_concepto_movimiento_bancario}`, 0, 0, 'C');
         pdf.Cell(0, 6, 'USUARIO: admin', 0, 0, 'R');
         pdf.Ln(5);
         pdf.Cell(0, 6, `FECHA: ${fecha}`, 0, 0, 'R');
@@ -76,7 +76,7 @@ exports.list = async (req, res, next) => {
         pdf.Cell(0, 6, `HORA: ${hora}`, 0, 0, 'R');
         pdf.Ln(5);
         pdf.Cell(10, 6, 'ID', 1, 0);
-        pdf.Cell(60, 6, 'CONCEPTOSMOVIMIENTOSBANCARIOS', 1, 0);
+        pdf.Cell(60, 6, 'CONCEPTOS_MOVIMIENTOS_BANCARIOS', 1, 0);
         pdf.Ln(5);
     }
     pdf.Footer = function Footer() {
@@ -94,7 +94,7 @@ exports.list = async (req, res, next) => {
     });
 
     const pdfBase64 = pdf.Output('base64');
-    const nombre = "conceptoMovimientoBancario";
+    const nombre = "concepto_movimiento_bancario";
 
     datos = { status: 200, data: { archivo: pdfBase64, nombre: nombre } }
     res.send(datos);

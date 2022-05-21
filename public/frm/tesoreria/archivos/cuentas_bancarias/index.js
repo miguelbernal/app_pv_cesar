@@ -1,63 +1,65 @@
-inicializador_formulario();
+inicializar_formulario();
 
-function inicializador_formulario() {
-    focus('#numero');
-    siguiente_campo('#numero', '#titular_cuenta', false);
-    siguiente_campo('#titular_cuenta', '#tipoCuentaBancaria', false);
-    siguiente_campo('#tipoCuentaBancaria', '#banco', false);
-    siguiente_campo('#banco', '#estadoCuentaBancaria', false);
-    siguiente_campo('#estadoCuentaBancaria', '#saldo', false);
+console.log('cuentas_bancarias')
+
+function inicializar_formulario() {
+    focus('#numero_cuenta');
+    siguiente_campo('#numero_cuenta', '#titular_cuenta', false);
+    siguiente_campo('#titular_cuenta', '#tipo_cuenta_bancaria', false);
+    siguiente_campo('#tipo_cuenta_bancaria', '#banco', false);
+    siguiente_campo('#banco', '#estado_cuenta_bancaria', false);
+    siguiente_campo('#estado_cuenta_bancaria', '#saldo', false);
     siguiente_campo('#saldo', '#boton-guardar', true);
-    buscar_cuentasBancarias();
-    id_cuentaBancaria = 0
+    buscar_cuentas_bancarias();
+    id_cuenta_bancaria = 0
 }
 
 function editar_linea(xthis) {
-    id_cuentaBancaria = xthis.parentElement.parentElement.getAttribute('data-id_cuentaBancaria')
-    id_tipoCuentaBancaria = xthis.parentElement.parentElement.getAttribute('data-id_tipoCuentaBancaria')
+    id_cuenta_bancaria = xthis.parentElement.parentElement.getAttribute('data-id_cuenta_bancaria')
+    id_tipo_cuenta_bancaria = xthis.parentElement.parentElement.getAttribute('data-id_tipo_cuenta_bancaria')
     id_banco = xthis.parentElement.parentElement.getAttribute('data-id_banco')
-    id_estadoCuentaBancaria = xthis.parentElement.parentElement.getAttribute('data-id_estadoCuentaBancaria')
+    id_estado_cuenta_bancaria = xthis.parentElement.parentElement.getAttribute('data-id_estado_cuenta_bancaria')
     const tds = xthis.parentElement.parentElement.children
-    const numero = tds[0].innerText
+    const numero_cuenta = tds[0].innerText
     const titular_cuenta = tds[1].innerText
-    const tipoCuentaBancaria = tds[2].innerText
+    const tipo_cuenta_bancaria = tds[2].innerText
     const banco = tds[3].innerText
-    const estadoCuentaBancaria = tds[4].innerText
+    const estado_cuenta_bancaria = tds[4].innerText
     const saldo = tds[5].innerText 
-    document.getElementById('numero').value = numero
+    document.getElementById('numero_cuenta').value = numero_cuenta
     document.getElementById('titular_cuenta').value = titular_cuenta
-    document.getElementById('tipoCuentaBancaria').value = tipoCuentaBancaria
+    document.getElementById('tipo_cuenta_bancaria').value = tipo_cuenta_bancaria
     document.getElementById('banco').value = banco
-    document.getElementById('estadoCuentaBancaria').value = estadoCuentaBancaria
+    document.getElementById('estado_cuenta_bancaria').value = estado_cuenta_bancaria
     document.getElementById('saldo').value = saldo
-    focus('#numero')
+    focus('#numero_cuenta')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-pencil-alt"></i> Modificar'
 }
 
 function agregar_linea() {
    // modificado = false
-    id_cuentaBancaria = 0
-    id_tipoCuentaBancaria = 0
+    id_cuenta_bancaria = 0
+    id_tipo_cuenta_bancaria = 0
     id_banco = 0
-    id_estadoCuentaBancaria = 0
-    document.getElementById('numero').value = ''
+    id_estado_cuenta_bancaria = 0
+    document.getElementById('numero_cuenta').value = ''
     document.getElementById('titular_cuenta').value = ''
-    document.getElementById('tipoCuentaBancaria').value = ''
+    document.getElementById('tipo_cuenta_bancaria').value = ''
     document.getElementById('banco').value = ''
-    document.getElementById('estadoCuentaBancaria').value = ''
+    document.getElementById('estado_cuenta_bancaria').value = ''
     document.getElementById('saldo').value = ''
-    focus('#numero')
+    focus('#numero_cuenta')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar'
 }
 
 function eliminar_linea(xthis) {
-    id_cuentaBancaria_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_cuentaBancaria')
+    id_cuenta_bancaria_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_cuenta_bancaria')
     mensaje_confirmar('Seguro que quiere eliminar este registro?', 'Eliminar', 'guardar_eliminar()')
 }
 
 function guardar() {
     if (validar_formulario()) {
-        if (id_cuentaBancaria === 0) {
+        if (id_cuenta_bancaria === 0) {
             guardar_agregar()
         } else {
             guardar_modificar()
@@ -67,10 +69,11 @@ function guardar() {
 
 function validar_formulario() {
     let ok = true
-    const numero = document.getElementById('numero')
+    const numero_cuenta = document.getElementById('numero_cuenta')
     const titular_cuenta = document.getElementById('titular_cuenta')
-    if (numero.value.trim() === '') {
-        mensaje_formulario('#numero', 'Numero vacio.')
+    limpiar_mensaje_formulario()
+    if (numero_cuenta.value.trim() === '') {
+        mensaje_formulario('#numero_cuenta', 'Numero vacio.')
         ok = false
     } else if (titular_cuenta.value.trim() === '') {
        mensaje_formulario('#titular_cuenta', 'Titular de cuenta vacio.')
@@ -80,9 +83,9 @@ function validar_formulario() {
 }
 
 // llamadas al servidor
-async function buscar_cuentasBancarias() {
+async function buscar_cuentas_bancarias() {
     let buscar = document.getElementById('buscar').value;
-    let url = `/api/v1/cuentasBancarias?buscar=${buscar}`;
+    let url = `/api/v1/cuentas_bancarias?buscar=${buscar}`;
     var parametros = {
         method: "GET",
         headers: {
@@ -92,18 +95,19 @@ async function buscar_cuentasBancarias() {
     };
     var datos = await fetch(url, parametros)
     const json = await datos.json();
+    console.log(json);
     const tbody = document.getElementById('tbody-datos-cuentas_bancarias');
     tbody.innerText = '';
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_cuentaBancaria=${json.datos[item].id} data-id_tipoCuentaBancaria=${json.datos[item].id_tipoCuentaBancaria}
-            data-id_banco=${json.datos[item].id_banco}data-id_estadoCuentaBancaria=${json.datos[item].id_estadoCuentaBancaria}>
-                            <td>${json.datos[item].numero}</td>
+            let linea = `<tr data-id_cuenta_bancaria=${json.datos[item].id} data-id_tipo_cuenta_bancaria=${json.datos[item].id_tipo_cuenta_bancaria}
+            data-id_banco=${json.datos[item].id_banco} data-id_estado_cuenta_bancaria=${json.datos[item].id_estado_cuenta_bancaria}>
+                            <td>${json.datos[item].numero_cuenta}</td>
                             <td>${json.datos[item].titular_cuenta}</td>
-                            <td>${json.datos[item].nombre_tipoCuentaBancaria}</td>
+                            <td>${json.datos[item].nombre_tipo_cuenta_bancaria}</td>
                             <td>${json.datos[item].nombre_banco}</td>
-                            <td>${json.datos[item].nombre_estadoCuentaBancaria}</td>
+                            <td>${json.datos[item].nombre_estado_cuenta_bancaria}</td>
                             <td>${json.datos[item].saldo}</td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -124,18 +128,18 @@ async function buscar_cuentasBancarias() {
 }
 
 async function guardar_agregar() {
-    let url = '/api/v1/cuentasBancarias';
-    let numero = document.getElementById('numero').value;
+    let url = '/api/v1/cuentas_bancarias';
+    let numero_cuenta = document.getElementById('numero_cuenta').value;
     let titular_cuenta = document.getElementById('titular_cuenta').value;
     let saldo = document.getElementById('saldo').value;
    
     var data = {
-        numero: numero,
+        numero_cuenta: numero_cuenta,
         titular_cuenta: titular_cuenta,
         saldo: saldo,
-        id_tipoCuentaBancaria: id_tipoCuentaBancaria,
+        id_tipo_cuenta_bancaria: id_tipo_cuenta_bancaria,
         id_banco: id_banco,
-        id_estadoCuentaBancaria: id_estadoCuentaBancaria
+        id_estado_cuenta_bancaria: id_estado_cuenta_bancaria
     };
     var parametros = {
         method: "POST",
@@ -147,26 +151,27 @@ async function guardar_agregar() {
     };
     var datos = await fetch(url, parametros);
     const json = await datos.json();
-    buscar_cuentasBancarias();
+    buscar_cuentas_bancarias();
     agregar_linea();
 };
 
 async function guardar_modificar() {
-    let url = `/api/v1/cuentasBancarias/${id_cuentaBancaria}`;
-    let numero = document.getElementById('numero').value;
+    let url = `/api/v1/cuentas_bancarias/${id_cuenta_bancaria}`;
+    let numero_cuenta = document.getElementById('numero_cuenta').value;
     let titular_cuenta = document.getElementById('titular_cuenta').value;
     let saldo = document.getElementById('saldo').value;
     
     let data = {
-        id_cuentaBancaria: id_cuentaBancaria,      
-        numero: numero,
+        id_cuenta_bancaria: id_cuenta_bancaria,      
+        numero_cuenta: numero_cuenta,
         titular_cuenta: titular_cuenta,
         saldo: saldo,
-        id_tipoCuentaBancaria: id_tipoCuentaBancaria,
+        id_tipo_cuenta_bancaria: id_tipo_cuenta_bancaria,
         id_banco: id_banco,
-        id_estadoCuentaBancaria: id_estadoCuentaBancaria
+        id_estado_cuenta_bancaria: id_estado_cuenta_bancaria
 
     };
+    console.log(data)
     let parametros = {
         method: "PUT",
         headers: {
@@ -177,12 +182,12 @@ async function guardar_modificar() {
     };
     let datos = await fetch(url, parametros);
     const json = await datos.json();
-    buscar_cuentasBancarias();
+    buscar_cuentas_bancarias();
     agregar_linea();
 };
 
 async function guardar_eliminar() {
-    let url = `/api/v1/cuentasBancaria/${id_cuentaBancaria_eliminar}`;
+    let url = `/api/v1/cuentas_bancarias/${id_cuenta_bancaria_eliminar}`;
     let data = {};
     let parametros = {
         method: "DELETE",
@@ -194,13 +199,13 @@ async function guardar_eliminar() {
     };
     let datos = await fetch(url, parametros);
     const json = await datos.json();
-    buscar_cuentasBancarias();
+    buscar_cuentas_bancarias();
 };
 
 // TIpos cuentas bancarias
-async function buscar_tipoCuentaBancaria() {
-    let buscar = document.getElementById('tipoCuentaBancaria').value;
-    let url = `/api/v1/tiposCuentasBancarias?buscar=${buscar}`;
+async function buscar_tipo_cuenta_bancaria() {
+    let buscar = document.getElementById('tipo_cuenta_bancaria').value;
+    let url = `/api/v1/tipos_cuentas_bancarias?buscar=${buscar}`;
 
     var parametros = {
         method: 'GET',
@@ -217,7 +222,7 @@ async function buscar_tipoCuentaBancaria() {
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_tipoCuentaBancaria=${json.datos[item].id} onclick="elegir_tipoCuentaBancaria(this)">
+            let linea = `<tr data-id_tipo_cuenta_bancaria=${json.datos[item].id} onclick="elegir_tipo_cuenta_bancaria(this)">
                             <td>${json.datos[item].nombre}</td>
                          </tr>`;
             lineas += linea;
@@ -229,12 +234,12 @@ async function buscar_tipoCuentaBancaria() {
     tbody.innerHTML = lineas;
 }
 
-function elegir_tipoCuentaBancaria(xthis) {
-    id_tipoCuentaBancaria = parseInt(xthis.getAttribute('data-id_tipoCuentaBancaria'));
+function elegir_tipo_cuenta_bancaria(xthis) {
+    id_tipo_cuenta_bancaria = parseInt(xthis.getAttribute('data-id_tipo_cuenta_bancaria'));
     const tds = xthis.children;
     const nombre = tds[0].innerText;
-    document.getElementById('tipoCuentaBancaria').value = nombre;
-    salir_buscador('modal-buscador-tipoCuentaBancaria');
+    document.getElementById('tipo_cuenta_bancaria').value = nombre;
+    salir_buscador('modal-buscador-tipo_cuenta_bancaria');
 }
 
 // bancos
@@ -249,7 +254,6 @@ async function buscar_banco() {
             'Content-Type': 'application/json'
         }
     };
-
     var datos = await fetch(url, parametros)
     const json = await datos.json();
     const tbody = document.getElementById('tbody-datos-elegir-banco');
@@ -278,9 +282,9 @@ function elegir_banco(xthis) {
 }
 
 // Estados cuentas bancarias
-async function buscar_estadoCuentaBancaria() {
-    let buscar = document.getElementById('estadoCuentaBancaria').value;
-    let url = `/api/v1/estadosCuentasBancarias?buscar=${buscar}`;
+async function buscar_estado_cuenta_bancaria() {
+    let buscar = document.getElementById('estado_cuenta_bancaria').value;
+    let url = `/api/v1/estados_cuentas_bancarias?buscar=${buscar}`;
 
     var parametros = {
         method: 'GET',
@@ -292,12 +296,12 @@ async function buscar_estadoCuentaBancaria() {
 
     var datos = await fetch(url, parametros)
     const json = await datos.json();
-    const tbody = document.getElementById('tbody-datos-elegir-estadoCuentaBancaria');
+    const tbody = document.getElementById('tbody-datos-elegir-estado_cuenta_bancaria');
     tbody.innerText = '';
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_estadoCuentaBancaria=${json.datos[item].id} onclick="elegir_estadoCuentaBancaria(this)">
+            let linea = `<tr data-id_estado_cuenta_bancaria=${json.datos[item].id} onclick="elegir_estado_cuenta_bancaria(this)">
                             <td>${json.datos[item].nombre}</td>
                          </tr>`;
             lineas += linea;
@@ -309,12 +313,12 @@ async function buscar_estadoCuentaBancaria() {
     tbody.innerHTML = lineas;
 }
 
-function elegir_estadoCuentaCancaria(xthis) {
-    id_estadoCuentaBancaria = parseInt(xthis.getAttribute('data-id_estadoCuentaBancaria'));
+function elegir_estado_cuenta_bancaria(xthis) {
+    id_estado_cuenta_bancaria = parseInt(xthis.getAttribute('data-id_estado_cuenta_bancaria'));
     const tds = xthis.children;
     const nombre = tds[0].innerText;
-    document.getElementById('estadoCuentaBancaria').value = nombre;
-    salir_buscador('modal-buscador-estadoCuentaBancaria');
+    document.getElementById('estado_cuenta_bancaria').value = nombre;
+    salir_buscador('modal-buscador-estado_cuenta_bancaria');
 }
 
 

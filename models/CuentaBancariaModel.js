@@ -9,12 +9,14 @@ module.exports = class CuentaBancariaModel {
 
     //Get Todas las cuentas bancarias
     static getAll = async (buscar) => {
-        const sql = `SELECT cb.id, cb.numero, cb.titular_cuenta, tc.id id_tipoCuentaBancaria, tc.nombre nombre_tipoCuentaBancaria
-        tc.id id_tipoCuentaBancaria, tc.nombre nombre_tipo_cuenta_bancaria
+        const sql = `SELECT cb.id, cb.numero_cuenta, cb.titular_cuenta, cb.saldo,
+                            cb.id_tipo_cuenta_bancaria id_tipo_cuenta_bancaria, tc.nombre nombre_tipo_cuenta_bancaria,
+                            cb.id_banco id_banco, b.nombre nombre_banco,
+                            cb.id_estado_cuenta_bancaria id_estado_cuenta_bancaria, ec.nombre nombre_estado_cuenta_bancaria
                             FROM cuentas_bancarias cb
-                            LEFT JOIN tipos_cuentas_bancarias tc ON cb.id_cuentaBancaria = tc.id
-                            LEFT JOIN bancos b ON cb.id_cuentasBancarias = b.id
-                            LEFT JOIN estados_cuentas_bancarias ec ON cb.id_cuentaBancaria = ec.id
+                            LEFT JOIN tipos_cuentas_bancarias tc ON cb.id_tipo_cuenta_bancaria = tc.id
+                            LEFT JOIN bancos b ON cb.id_banco = b.id
+                            LEFT JOIN estados_cuentas_bancarias ec ON cb.id_estado_cuenta_bancaria = ec.id
                             WHERE cb.titular_cuenta LIKE ?
                             ORDER BY id DESC`
         buscar = `%${buscar}%`  
@@ -22,26 +24,26 @@ module.exports = class CuentaBancariaModel {
     };
 
     //Agregar
-    static add = async (numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria) => {
-        const sql = `INSERT INTO cuentas_bancarias(numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria) VALUES(?,?,?,?,?)`
-        return await pool.query(sql, [numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria])
+    static add = async (numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria) => {
+        const sql = `INSERT INTO cuentas_bancarias(numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria) VALUES(?,?,?,?,?)`
+        return await pool.query(sql, [numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria])
     };
 
     //Modificar
-    static update = async (numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria) => {
-        const sql = `UPDATE depositos SET numero=?, titular_cuenta=?, id_tipoCuentaBancaria=? , id_banco=?, id_estadoCuentaBancaria=? WHERE id=?`
-        return await pool.query(sql, [numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria])
+    static update = async (numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria, id_cuenta_bancaria) => {
+        const sql = `UPDATE cuentas_bancarias SET numero_cuenta=?, titular_cuenta=?, id_tipo_cuenta_bancaria=? , id_banco=?, id_estado_cuenta_bancaria=? WHERE id=?`
+        return await pool.query(sql, [numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria, id_cuenta_bancaria])
     };
 
     //Eliminar 
-    static delete = async (id_cuentaBancaria) => {
+    static delete = async (id_cuenta_bancaria) => {
         const sql = `DELETE FROM cuentas_bancarias WHERE id=?`
-        return await pool.query(sql, [id_cuentaBancaria])
+        return await pool.query(sql, [id_cuenta_bancaria])
     };
 
     //list
-    static list = async (desde_cuentaBancaria, hasta_cuentaBancaria) => {
+    static list = async (desde_cuenta_bancaria, hasta_cuenta_bancaria) => {
         const sql = `SELECT * FROM cuentas_bancarias WHERE id >= ? AND id <= ?`
-        return await pool.query(sql, [desde_cuentaBancaria, hasta_cuentaBancaria])
+        return await pool.query(sql, [desde_cuenta_bancaria, hasta_cuenta_bancaria])
     };
 }

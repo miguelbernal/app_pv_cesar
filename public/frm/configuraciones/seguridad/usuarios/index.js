@@ -1,3 +1,4 @@
+mostrar_nombre_programa("Usuarios");
 inicializar_formulario()
 foto = undefined
 modificado = false
@@ -64,6 +65,7 @@ function validar_formulario() {
     const nombre = document.getElementById('nombre')
     const usuario = document.getElementById('usuario')
     const clave = document.getElementById('clave')
+    limpiar_mensaje_formulario()
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre', 'Nombre vacio.')
         ok = false

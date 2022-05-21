@@ -9,7 +9,7 @@
                         <span class="input-group-text texto-campo">
                             Nombre
                         </span>
-                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre">
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -19,17 +19,31 @@
                         <span class="input-group-text texto-campo">
                             Url
                         </span>
-                        <input id="url" name="url" type="text" class="form-control" placeholder="Url">
+                        <input id="url" name="url" type="text" class="form-control" placeholder="Url" autocomplete="off">
                     </div>
                 </div>
             </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Modulo
+                        </span>
+                        <input id="modulo" name="modulo" type="text" class="form-control" placeholder="Modulo" autocomplete="off"
+                            onkeyup="buscar_lista('modulo','modal-buscador-modulo','elegir_modulo(this)','buscar_modulo()','panel-lista')">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+         </div>
             <div class="row mb-2">
                 <div class="col-md-12">
                     <div class="input-group mb-1">
                         <span class="input-group-text texto-campo">
                             Submenu
                         </span>
-                        <input id="submenu" name="submenu" type="text" class="form-control" placeholder="Submenu" onkeyup="buscar_lista('submenu','modal-buscador-submenu','elegir_submenu(this)','buscar_submenu()','panel-lista')">
+                        <input id="submenu" name="submenu" type="text" class="form-control" placeholder="Submenu" autocomplete="off" onkeyup="buscar_lista('submenu','modal-buscador-submenu','elegir_submenu(this)','buscar_submenu()','panel-lista')">
                         <span class="input-group-text">
                             <i class="fas fa-search"></i>
                         </span>
@@ -64,6 +78,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Url</th>
+                        <th>Modulo</th>
                         <th>Submenu</th>
                         <th class="text-center" style="width: 100px;">
                             <button id='boton-agregar-linea' class="btn btn-outline-info btn-sm" onclick='agregar_linea()'>

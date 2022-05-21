@@ -17,17 +17,19 @@ exports.insert = async (req, res, next) => {
     const costo = req.body.costo
     const precio = req.body.precio
     const stock = req.body.stock
+    const iva = req.body.iva
     const foto = req.body.foto
     const modificado = req.body.modificado
     let datos = { status: 404, datos: [] }
-    const result = await ProductoModel.add(nombre, costo, precio, stock)
+    const result = await ProductoModel.add(nombre, costo, precio, stock, iva)
     if (result.affectedRows > 0) {
         const data = {
             id_producto: result.insertId,
             nombre: nombre,
             costo: costo,
             precio: precio,
-            stock: stock
+            stock: stock,
+            iva: iva
         }
         let archivo = __dirname.replace("controllers", "public/img/productos/0.jpg");
         let ruta = __dirname.replace("controllers", "public/img/productos/");
@@ -52,18 +54,20 @@ exports.update = async (req, res, next) => {
     const costo = req.body.costo
     const precio = req.body.precio
     const stock = req.body.stock
+    const iva = req.body.iva
     const foto = req.body.foto
     const modificado = req.body.modificado
     const id_producto = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await ProductoModel.update(nombre, costo, precio, stock, id_producto)
+    const result = await ProductoModel.update(nombre, costo, precio, stock, iva, id_producto)
     if (result.affectedRows > 0) {
         const data = {
             id_producto: id_producto,
             nombre: nombre,
             costo: costo,
             precio: precio,
-            stock: stock
+            stock: stock,
+            iva: iva
         }
         let ruta = __dirname.replace("controllers", "public/img/productos/");
         ruta = ruta + id_producto + ".jpg";

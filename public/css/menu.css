@@ -1,8 +1,53 @@
-#menu-boton{
+body {
+	background-position: center;
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	background-image: url(../img/bg.svg);
+}
+
+#menu-boton {
 	cursor: pointer;
 }
 
-.panel-principal{
+#navbar_nombre_formulario {
+	position: fixed;
+	width: 250px;
+	top: 0;
+	left: calc(50% - 125px);
+	color: white;
+	text-align: center;
+	font-size: 16px;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	z-index: 901;
+}
+
+.navbar {
+	z-index: 900;
+	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+	backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
+
+.bg-light{
+  background-color: rgba(0, 0, 0, 0.35)!important;
+}
+
+.card, .card-border, .card-body {
+  background-color: rgba(255,255,255,.7);
+  backdrop-filter: blur(4px);
+	-webkit-backdrop-filter: blur(4px);
+}
+
+.panel-principal {
 	background-color: #f48fb1;
 }
 
@@ -22,7 +67,7 @@
 	transition: all 1s;
 }
 
-.panel-main{
+.panel-main {
 	position: absolute;
 	top: 57px;
 	left: 300px;
@@ -30,12 +75,12 @@
 	transition: all 1s;
 }
 
-.panel-main-oculto{
+.panel-main-oculto {
 	left: 0;
 	width: 100%;
 }
 
-.menu-oculto{
+.menu-oculto {
 	left: -300px;
 }
 
@@ -46,37 +91,43 @@
 	left: 0;
 	z-index: -1;
 }
+
 #img-usuario-menubar {
 	margin-top: 70px;
 }
-.navbar {
-	z-index: 100;
-}
+
 .accordion-button {
 	padding: 10px;
 	background-color: transparent;
 }
+
 .accordion-button:not(.collapsed) {
 	padding: 10px;
 	background-color: transparent;
 }
+
 .accordion-button:focus {
 	border-color: #f48fb1;
 }
+
 .accordion-item {
 	background-color: transparent;
 	border: none;
 }
+
 .accordion-body {
 	padding: 0;
 }
+
 .list-group-item {
 	background-color: transparent;
 }
+
 .list-group-item.active {
 	background-color: #f48fb1;
 	border-color: #f48fb1;
 }
+
 .menu-admin .list-group-item {
 	cursor: pointer;
 }
@@ -89,7 +140,8 @@
 
 /* Estilos barra (thumb) de scroll */
 .menu-admin::-webkit-scrollbar-thumb {
-	background: #dd52b3;;
+	background: #dd52b3;
+	;
 	border-radius: 4px;
 }
 
@@ -113,69 +165,72 @@
 	background: #f8a7cd;
 }
 
-.panel-oculto{
+.panel-oculto {
 	display: none;
 }
 
-.card-body .texto-campo{
+.card-body .texto-campo {
 	width: 150px;
 }
 
-.card-footer{
+.card-footer {
 	text-align: center;
 }
 
-.actual{
+.actual {
 	color: #f513b1;
 	font-weight: bold;
 }
 
 /* MENU TREE */
 /* Remove default bullets */
-ul, .sidenav_options {
-  list-style-type: none;
+ul,
+.sidenav_options {
+	list-style-type: none;
 }
 
 /* Remove margins and padding from the parent ul */
 .sidenav__options {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
-.sidenav__options .form:hover{
-  font-weight: bold;
+.sidenav__options .form:hover {
+	font-weight: bold;
 }
 
-.sidenav__options .caret:hover{
-  font-weight: bold;
-  color: gray;
+.sidenav__options .caret:hover {
+	font-weight: bold;
+	color: gray;
 }
+
 /* Style the caret/arrow */
 .caret {
-  cursor: pointer;
-  user-select: none; /* Prevent text selection */
+	cursor: pointer;
+	user-select: none;
+	/* Prevent text selection */
 }
 
 /* Create the caret/arrow with a unicode, and style it */
 .caret::before {
-  content: "\1F86A";
-  color: black;
-  display: inline-block;
-  margin-right: 6px;
+	content: "\1F86A";
+	color: black;
+	display: inline-block;
+	margin-right: 6px;
 }
 
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .caret-down::before {
-  transform: rotate(90deg);
+	transform: rotate(90deg);
 }
 
 /* Hide the nested list */
 .nested {
-  display: none;
+	display: none;
 }
 
 /* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
 .active {
-  display: block;
-  cursor: pointer;
+	display: block;
+	cursor: pointer;
 }

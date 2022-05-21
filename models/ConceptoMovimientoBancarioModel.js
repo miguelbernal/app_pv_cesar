@@ -24,20 +24,20 @@ module.exports = class ConceptoMovimientoBancarioModel {
         };
     
         //Modificar
-        static update = async (nombre, id_conceptoMovimientoBancario) => {
+        static update = async (nombre, id_concepto_movimiento_bancario) => {
             const sql = `UPDATE conceptos_movimientos_bancarios SET nombre=? WHERE id=?`
-            return await pool.query(sql, [nombre, id_conceptoMovimientoBancario])
+            return await pool.query(sql, [nombre, id_concepto_movimiento_bancario])
         };
     
         //Eliminar 
-        static delete = async (id_conceptoMovimientoBancario) => {
+        static delete = async (id_concepto_movimiento_bancario) => {
             const sql = `DELETE FROM conceptos_movimientos_bancarios WHERE id=?`
-            return await pool.query(sql, [id_conceptoMovimientoBancario])
+            return await pool.query(sql, [id_concepto_movimiento_bancario])
         };
     
         //list
-        static list = async (desde_conceptoMovimientoBancario, hasta_conceptoMovimientoBancario) => {
+        static list = async (desde_concepto_movimiento_bancario, hasta_concepto_movimiento_bancario) => {
             const sql = `SELECT * FROM conceptos_movimientos_bancarios WHERE id >= ? AND id <= ?`
-            return await pool.query(sql, [desde_conceptoMovimientoBancario, hasta_conceptoMovimientoBancario])
+            return await pool.query(sql, [desde_concepto_movimiento_bancario, hasta_concepto_movimiento_bancario])
         };
     }

@@ -19,8 +19,9 @@ module.exports = class FormularioModel {
 
     // Get Todos los Formularios
     static getAll = async (buscar) => {
-        const sql = `SELECT f.id, f.nombre, url, f.id_submenu, s.nombre nombre_submenu
+        const sql = `SELECT f.id, f.nombre, f.url, f.id_modulo, m.nombre nombre_modulo, f.id_submenu, s.nombre nombre_submenu
                             FROM formularios f
+                            LEFT JOIN modulos m ON f.id_modulo = m.id
                             LEFT JOIN submenus s ON f.id_submenu = s.id
                             WHERE f.nombre LIKE ?
                             ORDER BY f.id DESC`
@@ -29,15 +30,15 @@ module.exports = class FormularioModel {
     };
 
     // Agregar
-    static add = async (nombre, url, id_submenu) => {
-        const sql = `INSERT INTO formularios(nombre, url, id_submenu) VALUES(?,?,?)`
-        return await pool.query(sql, [nombre, url, id_submenu])
+    static add = async (nombre, url, id_modulo, id_submenu) => {
+        const sql = `INSERT INTO formularios(nombre, url, id_modulo, id_submenu) VALUES(?,?,?,?)`
+        return await pool.query(sql, [nombre, url, id_modulo, id_submenu])
     };
 
     // Modificar
-    static update = async (nombre, url, id_submenu, id_formulario) => {
-        const sql = `UPDATE formularios SET nombre=?, url=?, id_submenu=? WHERE id=?`
-        return await pool.query(sql, [nombre, url, id_submenu, id_formulario])
+    static update = async (nombre, url, id_modulo, id_submenu, id_formulario) => {
+        const sql = `UPDATE formularios SET nombre=?, url=?, id_modulo=?, id_submenu=? WHERE id=?`
+        return await pool.query(sql, [nombre, url, id_modulo, id_submenu, id_formulario])
     };
 
     // Eliminar

@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="./frm/configuraciones/seguridad/configuraciones/index.css">
+<div class="card">
+    <div class="card-body">
+        <form>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Nombre
+                        </span>
+                        <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre"
+                            autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Dirección
+                        </span>
+                        <input id="direccion" name="direccion" type="text" class="form-control" placeholder="Dirección"
+                            autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Telefono
+                        </span>
+                        <input id="telefono" name="telefono" type="text" class="form-control" placeholder="Telefono"
+                            autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Ruc
+                        </span>
+                        <input id="ruc" name="ruc" type="text" class="form-control" placeholder="RUC"
+                            autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Moneda Local
+                        </span>
+                        <input id="moneda" name="moneda" type="text" class="form-control" placeholder="Moneda Local"
+                            onkeyup="buscar_lista('moneda','modal-buscador-moneda','elegir_moneda(this)','buscar_moneda()','panel-lista')">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div id="panel-formulario-mensaje" class="alert alert-danger mt-2 text-center d-none" role="alert">
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" id='boton-guardar' class="btn btn-outline-primary btn-sm" onclick='guardar()'>
+            <i class="fas fa-plus"></i> Modificar
+        </button>
+        <button type="button" id='boton-salir' class="btn btn-outline-danger btn-sm" onclick='salir_formulario()''>
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+    </div>
+</div>
+<script src="./frm/configuraciones/seguridad/configuraciones/index.js"></script>

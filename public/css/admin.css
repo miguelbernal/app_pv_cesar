@@ -1,16 +1,35 @@
-body{
-    background-image: url(../img/fondo.jpg);
-    background-position: center;
-    background-size: cover;
-    background-attachment: fixed;
+body {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background-position: center;
+    background-size: cover;
+    background-image: url(../img/bg.svg);
+    animation-duration: 10s;
+    animation-name: changewidth;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
-.form-admin{
-    width: 350px;
+
+@keyframes changewidth {
+    from {
+        backdrop-filter: hue-rotate(0deg);
+    }
+
+    to {
+        backdrop-filter: hue-rotate(360deg);
+    }
 }
-.form-admin img{
-    width: 350px;
+
+.form-admin {
+    width: 450px;
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+    padding: 1.5rem;
+    border-radius: 1rem;
+}
+
+
+.form-admin img {
+    width: 450px;
 }

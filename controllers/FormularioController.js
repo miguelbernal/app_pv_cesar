@@ -23,14 +23,16 @@ exports.getAll = async (req, res, next) => {
 exports.insert = async (req, res, next) => {
     const nombre = req.body.nombre
     const url = req.body.url
+    const id_modulo = req.body.id_modulo
     const id_submenu = req.body.id_submenu
     let datos = { status: 404, datos: [] }
-    const result = await FormularioModel.add(nombre, url, id_submenu)
+    const result = await FormularioModel.add(nombre, url,id_modulo, id_submenu)
     if (result.affectedRows > 0) {
         const data = {
             id_formulario: result.insertId,
             nombre: nombre,
             url: url,
+            id_modulo: id_modulo,
             id_submenu: id_submenu
         }
         datos = { status: 200, data: data };
@@ -41,14 +43,16 @@ exports.insert = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     const nombre = req.body.nombre
     const url = req.body.url
+    const id_modulo = req.body.id_modulo
     const id_submenu = req.body.id_submenu
     const id_formulario = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await FormularioModel.update(nombre, url, id_submenu, id_formulario)
+    const result = await FormularioModel.update(nombre, url, id_modulo, id_submenu, id_formulario)
     if (result.affectedRows > 0) {
         const data = {
             nombre: nombre,
             url: url,
+            id_modulo: id_modulo,
             id_submenu: id_submenu
         }
         datos = { status: 200, data: data };

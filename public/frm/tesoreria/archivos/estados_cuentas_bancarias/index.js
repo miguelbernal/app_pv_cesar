@@ -3,13 +3,13 @@ inicializador_formulario();
 function inicializador_formulario() {
     focus('#nombre');
     siguiente_campo('#nombre',  '#boton-guardar', true);
-    buscar_estadosCuentasBancarias();
-    id_estadoCuentaBancaria = 0
+    buscar_estados_cuentas_bancarias();
+    id_estado_cuenta_bancaria = 0
 }
 
 function editar_linea(xthis) {
    // modificado = false
-    id_estadoCuentaBancaria = xthis.parentElement.parentElement.getAttribute('data-id_estadoCuentaBancaria')
+    id_estado_cuenta_bancaria = xthis.parentElement.parentElement.getAttribute('data-id_estado_cuenta_bancaria')
     const tds = xthis.parentElement.parentElement.children
     const nombre = tds[0].innerText
     document.getElementById('nombre').value = nombre
@@ -19,21 +19,21 @@ function editar_linea(xthis) {
 
 function agregar_linea() {
    // modificado = false
-    id_estadoCuentaBancaria = 0
+    id_estado_cuenta_bancaria = 0
     document.getElementById('nombre').value = ''
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar'
 }
 
 function eliminar_linea(xthis){
-    id_estadoCuentaBancaria_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_estadoCuentaBancaria')
+    id_estado_cuenta_bancaria_eliminar = xthis.parentElement.parentElement.getAttribute('data-id_estado_cuenta_bancaria')
     mensaje_confirmar("Estas seguro de eliminar este registro?", "Eliminar", "guardar_eliminar()")
 }
 
 
 function guardar() {
     if (validar_formulario()) {
-        if (id_estadoCuentaBancaria === 0) {
+        if (id_estado_cuenta_bancaria === 0) {
             guardar_agregar()
         } else {
             guardar_modificar()
@@ -44,6 +44,7 @@ function guardar() {
 function validar_formulario() {
     let ok = true
     const nombre = document.getElementById('nombre')
+    limpiar_mensaje_formulario()
    // const sucursal = document.getElementById('sucursal')
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre', 'Nombre vacio.')
@@ -56,9 +57,9 @@ function validar_formulario() {
 }
 
 // llamadas al servidor
-async function buscar_estadosCuentasBancarias() {
+async function buscar_estados_cuentas_bancarias() {
     let buscar = document.getElementById('buscar').value;
-    let url = `/api/v1/estadosCuentasBancarias?buscar=${buscar}`;
+    let url = `/api/v1/estados_cuentas_bancarias?buscar=${buscar}`;
     var parametros = {
         method: "GET",
         headers: {
@@ -73,7 +74,7 @@ async function buscar_estadosCuentasBancarias() {
     let lineas = '';
     if (json.status === 200) {
         for (let item in json.datos) {
-            let linea = `<tr data-id_estadoCuentaBancaria=${json.datos[item].id}>
+            let linea = `<tr data-id_estado_cuenta_bancaria=${json.datos[item].id}>
             <td>${json.datos[item].nombre}</td>
             <td class="text-center">
 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -95,7 +96,7 @@ lineas += linea;
 }
 
 async function guardar_agregar() {
-    let url = '/api/v1/estadosCuentasBancarias';
+    let url = '/api/v1/estados_cuentas_bancarias';
     let nombre = document.getElementById('nombre').value;
     //let sucursal = document.getElementById('sucursal').value;
     var data = {
@@ -112,12 +113,12 @@ async function guardar_agregar() {
     };
     var datos = await fetch(url, parametros);
     const json = await datos.json();
-    buscar_estadosCuentasBancarias();
+    buscar_estados_cuentas_bancarias();
     agregar_linea();
 };
 
 async function guardar_modificar() {
-    let url = `/api/v1/estadosCuentasBancarias/${id_estadoCuentaBancaria}`;
+    let url = `/api/v1/estados_cuentas_bancarias/${id_estado_cuenta_bancaria}`;
     let nombre = document.getElementById('nombre').value;
     //let sucursal = document.getElementById('sucursal').value;
     let data = {
@@ -133,12 +134,12 @@ async function guardar_modificar() {
     };
     let datos = await fetch(url, parametros);
     const json = await datos.json();
-    buscar_estadosCuentasBancarias();
+    buscar_estados_cuentas_bancarias();
     agregar_linea();
 };
 
 async function guardar_eliminar(){
-    let url = `api/v1/estadosCuentasBancarias/${id_estadoCuentaBancaria_eliminar}`;
+    let url = `api/v1/estados_cuentas_bancarias/${id_estado_cuenta_bancaria_eliminar}`;
 
     var data = {};
 
@@ -153,6 +154,6 @@ async function guardar_eliminar(){
     var datos = await fetch(url, paramentros)
     const json = await datos.json();
    //console.log(json);
-    buscar_estadosCuentasBancarias();
+    buscar_estados_cuentas_bancarias();
 }
 

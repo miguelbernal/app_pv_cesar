@@ -26,7 +26,7 @@ function validar_formulario(){
     return ok
 }
 
-// Llamadas al Servidor
+// llamadas al servidor
 async function consultar_servidor() {
     const desde_fecha = document.getElementById('desde_fecha').value
     const hasta_fecha = document.getElementById('hasta_fecha').value
@@ -49,17 +49,17 @@ async function consultar_servidor() {
         for (let item in json.datos) {
             total += json.datos[item].total_precio
             let linea = `<tr>
-                            <td>${json.datos[item].fecha.replace('T',' ').replace('.000Z','')}</td>
-                            <td>${json.datos[item].observaciones}</td>
-                            <td class="text-end">${json.datos[item].total_precio.toLocaleString('es-ES', {minimumFractionDigits: 0})}</td>
-                        </tr>`;
-             lineas += linea;
+            <td>${json.datos[item].fecha.replace('T', ' ').replace('.000Z', '')}</td>
+            <td>${json.datos[item].observaciones}</td>
+            <td class="text-end">${json.datos[item].total_precio.toLocaleString('es-ES', {minimunFractionDigits: 0})}</td>          
+        </tr>`;
+            lineas += linea;
         }
     }
-    if(lineas === ''){
-        lineas = `<tr><td colspan="3" class="text-center">No existen registros ...</td></tr>`;
+    if (lineas === '') {
+        lineas = `<tr><td colspan="3" class="text-center">No hay registros....</td></tr>`
     }
     tbody.innerHTML = lineas;
-    total = total.toLocaleString('es-ES', {minimumFractionDigits: 0})
+    total = total.toLocaleString('es-ES', {minimunFractionDigits: 0})
     document.getElementById('total_inventarios').innerText = total
 }

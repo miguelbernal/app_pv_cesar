@@ -10,7 +10,7 @@
                                 <span class="input-group-text texto-campo">
                                     Nombre
                                 </span>
-                                <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre">
+                                <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Nombre" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
                                     Costo
                                 </span>
                                 <input id="costo" name="costo" type="number" class="form-control text-end"
-                                    placeholder="Costo">
+                                    placeholder="Costo" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                                     Precio
                                 </span>
                                 <input id="precio" name="precio" type="number" class="form-control text-end"
-                                    placeholder="Precio">
+                                    placeholder="Precio" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -43,11 +43,22 @@
                                     Stock
                                 </span>
                                 <input id="stock" name="stock" type="number" class="form-control text-end"
-                                    placeholder="Stock">
+                                    placeholder="Stock" autocomplete="off">
                             </div>
                         </div>
                     </div>
+                <div class="mb-1 row">
+                    <div class="col-md-6">
+                        <div class="mb-1 input-group">
+                            <span class="input-group-text texto-campo">
+                                IVA
+                            </span>
+                            <input id="iva" name="iva" type="number" class="form-control text-end"
+                                placeholder="IVA" autocomplete="off">
+                        </div>
+                    </div>
                 </div>
+            </div>
                 <div class="col-md-2">
                     <img id="foto-img" src="img/productos/0.jpg" class="mx-auto d-flex img-fluid" alt="Foto usuario">
                     <input type="file" name="foto-file" id="foto-file" accept="image/jpeg" onchange="cargar_foto(this)">
@@ -85,6 +96,7 @@
                         <th class="text-end">Costo</th>
                         <th class="text-end">Precio</th>
                         <th class="text-end">Stock</th>
+                        <th class="text-end">IVA</th>
                         <th class="text-center">Imágen</th>
                         <th class="text-center" style="width: 100px;">
                             <button id='boton-agregar-linea' class="btn btn-outline-info btn-sm"

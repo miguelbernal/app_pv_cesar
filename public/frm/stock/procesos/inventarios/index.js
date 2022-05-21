@@ -102,7 +102,8 @@ function validar_formulario() {
     let ok = true
     const fecha = document.getElementById('fecha')
     const observaciones = document.getElementById('observaciones')
-    const cliente = document.getElementById('cliente')
+    limpiar_mensaje_formulario()
+    //const cliente = document.getElementById('cliente')
     if (fecha.value.trim() === '') {
         mensaje_formulario('#fecha','Fecha vacia.')
         ok = false
@@ -117,6 +118,7 @@ function validar_formulario_detalle() {
     let ok = true
     const producto = document.getElementById('producto')
     const cantidad = document.getElementById('cantidad')
+    limpiar_mensaje_formulario()
     if (producto.value.trim() === '') {
         mensaje_formulario('#producto','Producto vacio.')
         ok = false

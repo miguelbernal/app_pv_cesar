@@ -18,11 +18,11 @@ module.exports = class EstadoCuentaBancariaModel {
     };
 
     //Get un estado
-    static getOne = async (id_estadoCuentaBancaria) => {
+    static getOne = async (id_estado_cuenta_bancaria) => {
         const sql =  `SELECT id, nombre
                             FROM estados_cuentas_bancarias
                             WHERE id = ?`
-        return await pool.query(sql, {id_estadoCuentaBancaria})
+        return await pool.query(sql, {id_estado_cuenta_bancaria})
     };
 
     //Agregar
@@ -32,15 +32,15 @@ module.exports = class EstadoCuentaBancariaModel {
     };
 
     //Modificar
-    static update = async (nombre, id_estadoCuentaBancaria) => {
+    static update = async (nombre, id_estado_cuenta_bancaria) => {
         const sql = `UPDATE estados_cuentas_bancarias SET nombre=? WHERE id=?`
-        return await pool.query(sql, [nombre, id_estadoCuentaBancaria])
+        return await pool.query(sql, [nombre, id_estado_cuenta_bancaria])
     };
 
     //Eliminar 
-    static delete = async (id_estadoCuentaBancaria) => {
+    static delete = async (id_estado_cuenta_bancaria) => {
         const sql = `DELETE FROM estados_cuentas_bancarias WHERE id=?`
-        return await pool.query(sql, [id_estadoCuentaBancaria])
+        return await pool.query(sql, [id_estado_cuenta_bancaria])
     };
 
 }

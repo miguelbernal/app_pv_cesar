@@ -18,11 +18,11 @@ module.exports = class TipoCuentaBancariaModel {
     };
 
     //Get un Rol
-    static getOne = async (id_tipoCuentaBancaria) => {
+    static getOne = async (id_tipo_cuenta_bancaria) => {
         const sql =  `SELECT id, nombre
                             FROM tipos_cuentas_bancarias
                             WHERE id = ?`
-        return await pool.query(sql, {id_tipoCuentaBancaria})
+        return await pool.query(sql, {id_tipo_cuenta_bancaria})
     };
 
     //Agregar
@@ -32,15 +32,15 @@ module.exports = class TipoCuentaBancariaModel {
     };
 
     //Modificar
-    static update = async (nombre, id_tipoCuentaBancaria) => {
+    static update = async (nombre, id_tipo_cuenta_bancaria) => {
         const sql = `UPDATE tipos_cuentas_bancarias SET nombre=? WHERE id=?`
-        return await pool.query(sql, [nombre, id_tipoCuentaBancaria])
+        return await pool.query(sql, [nombre, id_tipo_cuenta_bancaria])
     };
 
     //Eliminar 
-    static delete = async (id_tipoCuentaBancaria) => {
+    static delete = async (id_tipo_cuenta_bancaria) => {
         const sql = `DELETE FROM tipos_cuentas_bancarias WHERE id=?`
-        return await pool.query(sql, [id_tipoCuentaBancaria])
+        return await pool.query(sql, [id_tipo_cuenta_bancaria])
     };
 
 }

@@ -4,7 +4,11 @@ let id_formulario = 0;
 let id_submenu = 0;
 let id_cuenta_bancaria = 0;
 let id_tipo_cuenta_bancaria = 0;
-
+let id_concepto_movimiento_bancario = 0;
+let id_estado_cuenta_bancaria = 0
+let id_moneda = 0;
+let id_modulo = 0;
+let id_configuracion = 0;
 
 buscar_permisos();
 

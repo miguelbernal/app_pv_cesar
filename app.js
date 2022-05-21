@@ -25,9 +25,13 @@ const depositosRouter = require('./routes/depositosRouter');
 const tarjetasRouter = require('./routes/tarjetasRouter');
 const bancosRouter = require('./routes/bancosRouter');
 const cajasRouter = require('./routes/cajasRouter');
+const modulosRouter = require('./routes/modulosRouter');
 const conceptos_movimientos_bancariosRouter = require('./routes/conceptos_movimientos_bancariosRouter');
 const tipos_cuentas_bancariasRouter = require('./routes/tipos_cuentas_bancariasRouter');
 const estados_cuentas_bancariasRouter = require('./routes/estados_cuentas_bancariasRouter');
+const cuentas_bancariasRouter = require('./routes/cuentas_bancariasRouter');
+const monedasRouter = require('./routes/monedasRouter');
+const configuracionesRouter = require('./routes/configuracionesRouter');
 
 const app = express();
 
@@ -62,9 +66,14 @@ app.use('/api/v1/depositos', depositosRouter);
 app.use('/api/v1/tarjetas', tarjetasRouter);
 app.use('/api/v1/bancos', bancosRouter);
 app.use('/api/v1/cajas', cajasRouter);
+app.use('/api/v1/modulos', modulosRouter);
 app.use('/api/v1/conceptos_movimientos_bancarios', conceptos_movimientos_bancariosRouter);
 app.use('/api/v1/tipos_cuentas_bancarias', tipos_cuentas_bancariasRouter);
 app.use('/api/v1/estados_cuentas_bancarias', estados_cuentas_bancariasRouter);
+app.use('/api/v1/cuentas_bancarias', cuentas_bancariasRouter);
+app.use('/api/v1/monedas', monedasRouter);
+app.use('/api/v1/configuraciones', configuracionesRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

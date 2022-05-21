@@ -91,6 +91,7 @@ function validar_formulario() {
     const nombre = document.getElementById('nombre')
     const direccion = document.getElementById('direccion')
     const telefono = document.getElementById('telefono')
+    limpiar_mensaje_formulario()
     if (nombre.value.trim() === '') {
         mensaje_formulario('#nombre','Nombre vacio.')
         ok = false

@@ -12,17 +12,17 @@ exports.getAll = async (req, res, next) => {
 }
 
 exports.insert = async (req, res, next) => {
-    const numero = req.body.numero
+    const numero_cuenta = req.body.numero_cuenta
     const titular_cuenta = req.body.titular_cuenta
-    const id_tipoCuentaBancaria = req.body.id_tipoCuentaBancaria
+    const id_tipo_cuenta_bancaria = req.body.id_tipo_cuenta_bancaria
     const id_banco = req.body.id_banco
-    const id_estadoCuentaBancaria = req.body.id_estadoCuentaBancaria
+    const id_estado_cuenta_bancaria = req.body.id_estado_cuenta_bancaria
     let datos = { status: 404, datos: [] }
-    const result = await CuentaBancariaModel.add(numero, titular_cuenta, id_tipoCuentaBancaria, id_banco, id_estadoCuentaBancaria)
+    const result = await CuentaBancariaModel.add(numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria)
     if (result.affectedRow > 0) {
         const data = {
             id_cuenta_bancaria: result.insertId,
-            numero: numero,
+            numero_cuenta: numero_cuenta,
             titular_cuenta: titular_cuenta,
             id_tipo_cuenta_bancaria: id_tipo_cuenta_bancaria,
             id_banco: id_banco,
@@ -34,18 +34,18 @@ exports.insert = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-    const numero = req.body.numero
+    const numero_cuenta = req.body.numero_cuenta
     const titular_cuenta = req.body.titular_cuenta
     const id_tipo_cuenta_bancaria = req.body.id_tipo_cuenta_bancaria
     const id_banco = req.body.id_banco
     const id_estado_cuenta_bancaria = req.body.id_estado_cuenta_bancaria
     const id_cuenta_bancaria = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await Cuenta_BancariaModel.update(numero, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria, id_cuenta_bancaria)
+    const result = await CuentaBancariaModel.update(numero_cuenta, titular_cuenta, id_tipo_cuenta_bancaria, id_banco, id_estado_cuenta_bancaria, id_cuenta_bancaria)
     if (result.affectedRow > 0) {
         const data = {
             id_cuenta_bancaria: id_cuenta_bancaria,
-            numero: numero,
+            numero_cuenta: numero_cuenta,
             id_tipo_cuenta_bancaria: id_tipo_cuenta_bancaria,
             id_banco: id_banco,
             id_estado_cuenta_bancaria: id_estado_cuenta_bancaria
@@ -58,7 +58,7 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     const id_cuenta_bancaria = req.params.id
     let datos = { status: 404, datos: [] }
-    const result = await Cuenta_BancariaModel.delete(id_cuenta_bancaria)
+    const result = await CuentaBancariaModel.delete(id_cuenta_bancaria)
     if (result.affectedRows > 0) {
         const data = {
             id_cuenta_bancaria: id_cuenta_bancaria,
@@ -72,7 +72,7 @@ exports.list = async (req, res, next) => {
     const desde_cuenta_bancaria = req.query.desde_cuenta_bancaria
     const hasta_cuenta_bancaria = req.query.hasta_cuenta_bancaria
     let datos = { status: 404, datos: [] }
-    const result = await Cuenta_BancariaModel.list(desde_cuenta_bancaria, hasta_cuenta_bancaria)
+    const result = await CuentaBancariaModel.list(desde_cuenta_bancaria, hasta_cuenta_bancaria)
     const pdf = new FPDF('L', 'mm', 'A4');
     pdf.AliasNbPages = '{nb}';
     pdf.Header = function Header() {
