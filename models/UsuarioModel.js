@@ -17,9 +17,16 @@ module.exports = class UsuarioModel {
     
     // Get Todos los Usuarios
     static getAll = async (buscar) => {
-        const sql = `SELECT u.id, u.nombre, u.usuario, u.email, u.clave, r.id id_rol, r.nombre nombre_rol  
+        const sql = `SELECT u.id, u.nombre, u.usuario, u.email, u.clave, 
+                            r.id id_rol, r.nombre nombre_rol,
+                            c.id id_caja, c.nombre nombre_caja,
+                            d.id id_deposito, d.nombre nombre_deposito,
+                            s.id id_sucursal, s.nombre nombre_sucursal
                             FROM usuarios u
                             LEFT JOIN roles r ON u.id_rol = r.id
+                            LEFT JOIN cajas c ON u.id_caja = c.id
+                            LEFT JOIN depositos d ON c.id_deposito = d.id
+                            LEFT JOIN sucursales s ON d.id_sucursal = s.id
                             WHERE u.nombre LIKE ?
                             ORDER BY u.id DESC`
         buscar = `%${buscar}%`
@@ -28,23 +35,26 @@ module.exports = class UsuarioModel {
 
     // Get Un Usuario
     static getOne = async (id_usuario) => {
-        const sql = `SELECT u.id, u.nombre, u.usuario, u.id_rol, r.nombre nombre_rol
+        const sql = `SELECT u.id, u.nombre, u.usuario, 
+                            u.id_rol, r.nombre nombre_rol,
+                            c.id id_caja, c.nombre nombre_caja
                             FROM usuarios u
                             LEFT JOIN roles r ON u.id_rol = r.id
+                            LEFT JOIN cajas c ON u.id_caja = c.id
                             WHERE u.id = ?`
         return await pool.query(sql, [id_usuario])
     };
 
     // Agregar
-    static add = async (nombre, usuario, clave, id_rol) => {
-        const sql = `INSERT INTO usuarios(nombre, usuario, clave, id_rol) VALUES(?,?,?,?)`
-        return await pool.query(sql, [nombre, usuario, clave, id_rol])
+    static add = async (nombre, usuario, clave, id_rol, id_caja) => {
+        const sql = `INSERT INTO usuarios(nombre, usuario, clave, id_rol, id_caja) VALUES(?,?,?,?,?)`
+        return await pool.query(sql, [nombre, usuario, clave, id_rol, id_caja])
     };
 
     // Modificar
-    static update = async (nombre, usuario, clave, id_rol, id_usuario) => {
-        const sql = `UPDATE usuarios SET nombre=?, usuario=?, clave=?, id_rol=? WHERE id=?`
-        return await pool.query(sql, [nombre, usuario, clave, id_rol, id_usuario])
+    static update = async (nombre, usuario, clave, id_rol, id_caja, id_usuario) => {
+        const sql = `UPDATE usuarios SET nombre=?, usuario=?, clave=?, id_rol=?, id_caja=? WHERE id=?`
+        return await pool.query(sql, [nombre, usuario, clave, id_rol, id_caja, id_usuario])
     };
 
     // Eliminar

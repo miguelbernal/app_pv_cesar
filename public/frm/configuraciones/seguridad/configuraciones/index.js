@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Configuraciones");
+
 inicializar_formulario();
 
 function inicializar_formulario() {

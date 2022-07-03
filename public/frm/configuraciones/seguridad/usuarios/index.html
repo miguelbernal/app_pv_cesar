@@ -50,6 +50,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="input-group mb-1">
+                                    <span class="input-group-text texto-campo">
+                                        Caja
+                                    </span>
+                                    <input id="caja" name="caja" type="text" class="form-control" placeholder="Caja" autocomplete="off"
+                                        onkeyup="buscar_lista('caja','modal-buscador-caja','elegir_caja(this)','buscar_caja()','panel-lista')">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-2">
                         <img id="foto-img" src="img/usuarios/0.jpg" class="d-flex mx-auto img-fluid rounded-circle"
@@ -92,6 +106,9 @@
                         <th>Usuario</th>
                         <th>Contraseña</th>
                         <th>Rol</th>
+                        <th>Caja</th>
+                        <th>Depósito</th>
+                        <th>Sucursal</th>
                         <th class="text-center">Foto</th>
                         <th class="text-center" style="width: 100px;">
                             <button id='boton-agregar-linea' class="btn btn-outline-info btn-sm"

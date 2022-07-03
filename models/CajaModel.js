@@ -9,9 +9,11 @@ module.exports = class CajaModel {
 
     //Get Todas las cajas
     static getAll = async (buscar) => {
-        const sql = `SELECT c.id, c.nombre, s.id id_sucursal, s.nombre nombre_sucursal
+        const sql = `SELECT c.id, c.nombre, d.id id_deposito, d.nombre nombre_deposito,
+                            s.id id_sucursal, s.nombre nombre_sucursal
                             FROM cajas c
-                            LEFT JOIN sucursales s ON c.id_sucursal = s.id
+                            LEFT JOIN depositos d ON c.id_deposito = d.id
+                            LEFT JOIN sucursales s ON d.id_sucursal = s.id
                             WHERE c.nombre LIKE ?
                             ORDER BY id DESC`
         buscar = `%${buscar}%`  

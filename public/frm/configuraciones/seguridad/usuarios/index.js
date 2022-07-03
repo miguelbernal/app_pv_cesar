@@ -8,7 +8,8 @@ function inicializar_formulario() {
     siguiente_campo('#nombre', '#usuario', false)
     siguiente_campo('#usuario', '#clave', false)
     siguiente_campo('#clave', '#rol', false)
-    siguiente_campo('#rol', '#boton-guardar', true)
+    siguiente_campo('#rol', '#caja', false)
+    siguiente_campo('#caja', '#boton-guardar', true)
     buscar_usuarios()
     id_usuario = 0
 }
@@ -17,16 +18,19 @@ function editar_linea(xthis) {
     modificado = false
     id_usuario = xthis.parentElement.parentElement.getAttribute('data-id_usuario')
     id_rol = xthis.parentElement.parentElement.getAttribute('data-id_rol')
+    id_caja = xthis.parentElement.parentElement.getAttribute('data-id_caja')
     const tds = xthis.parentElement.parentElement.children
     const nombre = tds[0].innerText
     const usuario = tds[1].innerText
     const clave = tds[2].innerText
     const rol = tds[3].innerText
+    const caja = tds[4].innerText + ' - ' + tds[5].innerText + ' - ' + tds[6].innerText
     const img = 'img/usuarios/' + id_usuario + '.jpg'
     document.getElementById('nombre').value = nombre
     document.getElementById('usuario').value = usuario
     document.getElementById('clave').value = clave
     document.getElementById('rol').value = rol
+    document.getElementById('caja').value = caja
     document.getElementById('foto-img').setAttribute('src', img)
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-pencil-alt"></i> Modificar'
@@ -36,10 +40,12 @@ function agregar_linea() {
     modificado = false
     id_usuario = 0
     id_rol = 0
+    id_caja = 0
     document.getElementById('nombre').value = ''
     document.getElementById('usuario').value = ''
     document.getElementById('clave').value = ''
     document.getElementById('rol').value = ''
+    document.getElementById('caja').value = ''
     document.getElementById('foto-img').setAttribute('src', 'img/usuarios/0.jpg')
     focus('#nombre')
     document.getElementById('boton-guardar').innerHTML = '<i class="fas fa-plus"></i> Agregar'
@@ -106,6 +112,7 @@ async function buscar_usuarios() {
     };
     var datos = await fetch(url, parametros)
     const json = await datos.json();
+    console.log(json)
     const tbody = document.getElementById('tbody-datos-usuarios');
     tbody.innerText = '';
     let lineas = '';
@@ -113,11 +120,14 @@ async function buscar_usuarios() {
         for (let item in json.datos) {
             let img = `img/usuarios/${json.datos[item].id}.jpg`
             let foto = `<img src="${img}" alt="${img}" class="img-fluid rounded-circle" style="height: 50px">`
-            let linea = `<tr data-id_usuario=${json.datos[item].id} data-id_rol=${json.datos[item].id_rol}>
+            let linea = `<tr data-id_usuario=${json.datos[item].id} data-id_rol=${json.datos[item].id_rol} data-id_caja=${json.datos[item].id_caja}>
                             <td>${json.datos[item].nombre}</td>
                             <td>${json.datos[item].usuario}</td>
                             <td>${json.datos[item].clave}</td>
                             <td>${json.datos[item].nombre_rol}</td>
+                            <td>${json.datos[item].nombre_caja}</td>
+                            <td>${json.datos[item].nombre_deposito}</td>
+                            <td>${json.datos[item].nombre_sucursal}</td>
                             <td class="text-center">${foto}</td>
                             <td class="text-center">
                                 <button type="button" class="btn btn-outline-warning btn-sm" onclick='editar_linea(this)'>
@@ -132,7 +142,7 @@ async function buscar_usuarios() {
         }
     }
     if (lineas === '') {
-        lineas = `<tr><td colspan="6" class="text-center">No existen registros ...</td></tr>`;
+        lineas = `<tr><td colspan="9" class="text-center">No existen registros ...</td></tr>`;
     }
     tbody.innerHTML = lineas;
 }
@@ -148,6 +158,7 @@ async function guardar_agregar() {
         usuario: usuario,
         clave: clave,
         id_rol: id_rol,
+        id_caja: id_caja,
         foto: foto,
         modificado: modificado
     };
@@ -178,6 +189,7 @@ async function guardar_modificar() {
         usuario: usuario,
         clave: clave,
         id_rol: id_rol,
+        id_caja: id_caja,
         foto: foto,
         modificado: modificado
     };
@@ -253,4 +265,44 @@ function elegir_rol(xthis) {
     const nombre = tds[0].innerText;
     document.getElementById('rol').value = nombre;
     salir_buscador('modal-buscador-rol');
+}
+
+// Cajas
+async function buscar_caja() {
+    let buscar = document.getElementById('caja').value;
+    let url = `/api/v1/cajas?buscar=${buscar}`;
+
+    var parametros = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    var datos = await fetch(url, parametros)
+    const json = await datos.json();
+    const tbody = document.getElementById('tbody-datos-elegir-caja');
+    tbody.innerText = '';
+    let lineas = '';
+    if (json.status === 200) {
+        for (let item in json.datos) {
+            let linea = `<tr data-id_caja=${json.datos[item].id} onclick="elegir_caja(this)">
+                            <td>${json.datos[item].nombre} - ${json.datos[item].nombre_deposito} - ${json.datos[item].nombre_sucursal}</td>
+                         </tr>`;
+            lineas += linea;
+        }
+    }
+    if (lineas === '') {
+        lineas = `<tr><td class="text-center">No existen registros ...</td></tr>`;
+    }
+    tbody.innerHTML = lineas;
+}
+
+function elegir_caja(xthis) {
+    id_caja = parseInt(xthis.getAttribute('data-id_caja'));
+    const tds = xthis.children;
+    const nombre = tds[0].innerText;
+    document.getElementById('caja').value = nombre;
+    salir_buscador('modal-buscador-caja');
 }

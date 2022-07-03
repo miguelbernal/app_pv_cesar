@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Cajas");
+
 inicializador_formulario();
 
 function inicializador_formulario() {

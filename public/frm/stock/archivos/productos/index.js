@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Productos");
+
 inicializar_formulario()
 foto = undefined
 modificado = false

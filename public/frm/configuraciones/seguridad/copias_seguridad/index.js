@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Copia de Seguridad");
+
 var archivo = '';
 inicializar_formulario();
 

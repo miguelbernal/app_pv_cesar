@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Estados Cuentas Bancarias");
+
 inicializador_formulario();
 
 function inicializador_formulario() {

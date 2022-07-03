@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Consultas Ventas");
+
 inicializar_formulario()
 
 function inicializar_formulario(){

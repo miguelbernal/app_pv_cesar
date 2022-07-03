@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Cuentas Bancarias");
+
 inicializar_formulario();
 
 console.log('cuentas_bancarias')

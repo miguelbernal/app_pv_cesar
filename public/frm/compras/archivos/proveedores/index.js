@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Proveedores");
+
 inicializador_formulario();
 
 var map = L.map('mapid').setView([-25.3253331, -57.5255339], 18);

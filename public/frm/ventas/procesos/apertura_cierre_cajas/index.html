@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="./frm/configuraciones/seguridad/roles/index.css">
+
+<div class="card">
+    <div class="card-body">
+        <div class="alert alert-warning" role="alert">
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Usuario
+                        </span>
+                        <input id="usuario" name="usuario" type="text" class="form-control" placeholder="Usuario" autocomplete="off" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Apertura
+                        </span>
+                        <input id="apertura" name="apertura" type="text" class="form-control" placeholder="Apertura" autocomplete="off" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-12">
+                    <div class="input-group mb-1">
+                        <span class="input-group-text texto-campo">
+                            Cierre
+                        </span>
+                        <input id="cierre" name="cierre" type="text" class="form-control" placeholder="Cierre" autocomplete="off" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button type="button" id='boton-abrir' class="btn btn-outline-primary btn-sm" onclick='abrir()'>
+                        <i class="fas fa-lock-open"></i> Abrir
+                    </button>
+                    <button type="button" id='boton-cerrar' class="btn btn-outline-danger btn-sm" onclick='cerrar()'>
+                        <i class="fas fa-lock"></i> Cerrar
+                    </button>
+                </div>
+            </div>
+            <div id="panel-formulario-mensaje" class="alert alert-danger mt-2 text-center d-none" role="alert"></div>      
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" id='boton-salir' class="btn btn-outline-danger btn-sm" onclick='salir_formulario()''>
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+    </div>
+</div>
+
+<script src="./frm/ventas/procesos/apertura_cierre_cajas/index.js"></script>

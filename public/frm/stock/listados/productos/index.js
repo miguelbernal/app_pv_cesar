@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Listados Productos");
+
 inicializar_formulario()
 
 function inicializar_formulario() {

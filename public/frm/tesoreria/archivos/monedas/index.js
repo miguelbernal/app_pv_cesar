@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Monedas");
+
 inicializar_formulario();
 
 function inicializar_formulario() {

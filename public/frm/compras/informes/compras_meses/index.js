@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Compras_Meses");
+
 inicializar_formulario()
 var myChart, myChart2;
 

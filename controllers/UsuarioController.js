@@ -29,17 +29,19 @@ exports.insert = async (req, res, next) => {
     const usuario = req.body.usuario
     const clave = req.body.clave
     const id_rol = req.body.id_rol
+    const id_caja = req.body.id_caja
     const foto = req.body.foto
     const modificado = req.body.modificado
     let datos = { status: 404, datos: [] }
-    const result = await UsuarioModel.add(nombre, usuario, clave, id_rol)
+    const result = await UsuarioModel.add(nombre, usuario, clave, id_rol, id_caja)
     if (result.affectedRows > 0) {
         const data = {
             id_usuario: result.insertId,
             nombre: nombre,
             usuario: usuario,
             clave: clave,
-            id_rol: id_rol
+            id_rol: id_rol,
+            id_caja: id_caja
         }
         let archivo = __dirname.replace("controllers", "public/img/usuarios/0.jpg");
         let ruta = __dirname.replace("controllers", "public/img/usuarios/");
@@ -64,11 +66,12 @@ exports.update = async (req, res, next) => {
     const usuario = req.body.usuario
     const clave = req.body.clave
     const id_rol = req.body.id_rol
+    const id_caja = req.body.id_caja
     const id_usuario = req.params.id
     const foto = req.body.foto
     const modificado = req.body.modificado
     let datos = { status: 404, datos: [] }
-    const result = await UsuarioModel.update(nombre, usuario, clave, id_rol, id_usuario)
+    const result = await UsuarioModel.update(nombre, usuario, clave, id_rol, id_caja, id_usuario)
     if (result.affectedRows > 0) {
         const data = {
             id_usuario: id_usuario,
@@ -76,6 +79,7 @@ exports.update = async (req, res, next) => {
             usuario: usuario,
             clave: clave,
             id_rol: id_rol,
+            id_caja: id_caja,
         }
         let ruta = __dirname.replace("controllers", "public/img/usuarios/");
         ruta = ruta + id_usuario + ".jpg";

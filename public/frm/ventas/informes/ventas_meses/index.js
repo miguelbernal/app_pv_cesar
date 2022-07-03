@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Informes Ventas");
+
 inicializar_formulario()
 var myChart, myChart2;
 

@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Consultas Inventarios");
+
 inicializar_formulario()
 
 function inicializar_formulario(){

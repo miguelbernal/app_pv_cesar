@@ -1,3 +1,5 @@
+mostrar_nombre_programa("Cambiar Clave");
+
 inicializar_formulario()
 
 function inicializar_formulario() {

@@ -208,6 +208,19 @@ CREATE TABLE app_pv_cesar.ventas_detalles (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--- APERTURA_CIERRE_CAJAS
+CREATE TABLE app_pv_cesar.apertura_cierre_cajas (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	apertura datetime NULL,
+	cierre datetime NULL,
+	cerrado bool NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
 -- TRIGGERS
 -- VENTAS DETALLES
 DELIMITER //
