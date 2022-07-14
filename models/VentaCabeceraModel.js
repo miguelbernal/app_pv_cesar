@@ -9,7 +9,7 @@ module.exports = class VentaCabeceraModel {
 
     // Get Todos los VentaCabeceras
     static getAll = async (buscar) => {
-        const sql = `SELECT vc.id, fecha, condicion, timbrado, fiscal, vc.id_cliente, c.nombre nombre_cliente
+        const sql = `SELECT vc.id, fecha, condicion, timbrado, fiscal, id_apertura_cierre_caja, vc.id_cliente, c.nombre nombre_cliente
                         FROM ventas_cabeceras vc
                         LEFT JOIN clientes c ON vc.id_cliente = c.id
                         WHERE c.nombre LIKE ? 
@@ -19,9 +19,9 @@ module.exports = class VentaCabeceraModel {
     };
 
     // Agregar
-    static add = async (fecha, condicion, timbrado, fiscal, id_cliente) => {
-        const sql = `INSERT INTO ventas_cabeceras(fecha, condicion, timbrado, fiscal, id_cliente)  VALUES(?,?,?,?,?)`
-        return await pool.query(sql, [fecha, condicion, timbrado, fiscal, id_cliente])
+    static add = async (fecha, condicion, timbrado, fiscal, id_cliente, id_apertura_cierre_caja) => {
+        const sql = `INSERT INTO ventas_cabeceras(fecha, condicion, timbrado, fiscal, id_cliente, id_apertura_cierre_caja)  VALUES(?,?,?,?,?,?)`
+        return await pool.query(sql, [fecha, condicion, timbrado, fiscal, id_cliente, id_apertura_cierre_caja])
     };
 
     // Modificar
@@ -40,7 +40,8 @@ module.exports = class VentaCabeceraModel {
 
     // Consultas
     static consult = async (desde_fecha, hasta_fecha, desde_cliente, hasta_cliente) => {
-        const sql = `SELECT vc.id, fecha, condicion, timbrado, fiscal, vc.id_cliente, c.nombre nombre_cliente, vc.total_costo, vc.total_precio
+        const sql = `SELECT vc.id, fecha, condicion, timbrado, fiscal, vc.id_cliente, c.nombre nombre_cliente, vc.total_costo, vc.total_precio, 
+                            vc.id_apertura_cierre_caja
                         FROM ventas_cabeceras vc
                         LEFT JOIN clientes c ON vc.id_cliente = c.id
                         WHERE  fecha  BETWEEN ? AND  ? AND 

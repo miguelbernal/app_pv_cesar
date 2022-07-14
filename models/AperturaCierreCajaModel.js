@@ -7,7 +7,7 @@ module.exports = class AperturaCierreCajaModel {
         this.item = item
     }
 
-    //Get Todas las cajas
+    //Get Todas las cajas por Usuario
     static getByUsuario = async (id_usuario) => {
         const sql = `SELECT id, apertura, cierre, cerrado,
                             usuario_id

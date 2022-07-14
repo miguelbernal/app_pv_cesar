@@ -16,8 +16,9 @@ exports.insert = async (req, res, next) => {
     const timbrado = req.body.timbrado
     const fiscal = req.body.fiscal
     const id_cliente = req.body.id_cliente
+    const id_apertura_cierre_caja = req.body.id_apertura_cierre_caja
     let datos = { status: 404, datos: [] }
-    const result = await VentaCabeceraModel.add(fecha, condicion, timbrado, fiscal, id_cliente)
+    const result = await VentaCabeceraModel.add(fecha, condicion, timbrado, fiscal, id_cliente, id_apertura_cierre_caja)
     if (result.affectedRows > 0) {
         const data = {
             id_venta_cabecera: result.insertId,
@@ -25,7 +26,8 @@ exports.insert = async (req, res, next) => {
             condicion: condicion,
             timbrado: timbrado,
             fiscal: fiscal,
-            id_cliente: id_cliente
+            id_cliente: id_cliente,
+            id_apertura_cierre_caja: id_apertura_cierre_caja
         }
         datos = { status: 200, data: data };
     }

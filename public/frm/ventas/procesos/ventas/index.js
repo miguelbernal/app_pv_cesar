@@ -1,5 +1,10 @@
 mostrar_nombre_programa("Ventas");
 
+id_usuario = localStorage.getItem('id_usuario')
+id_apertura_cierre_caja = 0
+
+buscar_apertura_cierre_cajas();
+
 inicializador_formulario(); 
 
 function inicializador_formulario() {
@@ -16,6 +21,28 @@ function inicializador_formulario() {
     buscar_ventas();
     id_venta_cabecera = 0;
     id_venta_detalle = 0;
+}
+
+async function buscar_apertura_cierre_cajas() {
+    let url = `/api/v1/apertura_cierre_cajas/usuario/${id_usuario}`;
+
+    var parametros = {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    };
+
+    var datos = await fetch(url, parametros)
+    const json = await datos.json();
+    console.log(json)
+    if(json.datos.length > 0){
+        id_apertura_cierre_caja = json.datos[0].id
+        console.log(`id_apertura_cierre_caja = ${id_apertura_cierre_caja}`)
+    } else {
+        cargar_formulario('panel-lista','frm/ventas/procesos/apertura_cierre_cajas/index.html','ocultar_busqueda()')
+    }
 }
 
 function editar_linea(xthis) {
@@ -255,7 +282,8 @@ async function guardar_agregar(detalle) {
         condicion: condicion,
         timbrado: timbrado,
         fiscal: fiscal,
-        id_cliente: id_cliente
+        id_cliente: id_cliente,
+        id_apertura_cierre_caja: id_apertura_cierre_caja
     };
     var parametros = {
         method: "POST",
