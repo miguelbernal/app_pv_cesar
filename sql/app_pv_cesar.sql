@@ -151,7 +151,7 @@ CREATE TABLE app_pv_cesar.compras_cabeceras (
   id int(11) NOT NULL AUTO_INCREMENT,
   fecha datetime DEFAULT current_timestamp(),
   id_proveedor int(11) NOT NULL,
-  condicion int(1) DEFAULT 1,
+  id_condicion int(11) NOT NULL,
   timbrado varchar(10) NOT NULL,
   fiscal varchar(20) NOT NULL,
   total_precio int(11) DEFAULT 0,
@@ -181,7 +181,7 @@ CREATE TABLE app_pv_cesar.ventas_cabeceras (
   id int(11) NOT NULL AUTO_INCREMENT,
   fecha datetime DEFAULT current_timestamp(),
   id_cliente int(11) NOT NULL,
-  condicion int(1) DEFAULT 1,
+  id_condicion int(11) NOT NULL,
   timbrado varchar(10) NOT NULL,
   fiscal varchar(20) NOT NULL,
   total_costo int(11) DEFAULT 0,
@@ -190,6 +190,7 @@ CREATE TABLE app_pv_cesar.ventas_cabeceras (
   date_add datetime DEFAULT current_timestamp(),
   date_mod datetime DEFAULT NULL,
   date_del datetime DEFAULT NULL,
+  id_apertura_cierre_caja int(11) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
@@ -220,6 +221,165 @@ CREATE TABLE app_pv_cesar.apertura_cierre_cajas (
   date_del datetime DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--- A PARTIR DE AQUI TABLAS NUEVAS
+--- CONDICIONES
+CREATE TABLE app_pv_cesar.condiciones (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	nombre varchar(100) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--- FORMAS DE COBRO
+CREATE TABLE app_pv_cesar.formas_cobros (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	nombre varchar(100) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--- FORMAS DE PAGO
+CREATE TABLE app_pv_cesar.formas_pagos (
+	id int(11) NOT NULL AUTO_INCREMENT,
+	nombre varchar(100) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- VENTAS_COBROS
+CREATE TABLE app_pv_cesar.ventas_cobros (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_venta_cabecera int(11) NOT NULL,
+  id_forma_cobro int(11) NOT NULL,
+  id_tarjeta int(11) NOT NULL,
+  id_banco int(11) NOT NULL,
+  cuenta varchar(50) NOT NULL,
+  numero varchar(50) NOT NULL,
+  importe int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- COMPRAS_PAGOS
+CREATE TABLE app_pv_cesar.compras_pagos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_compra_cabecera int(11) NOT NULL,
+  id_forma_pago int(11) NOT NULL,
+  id_tarjeta int(11) NOT NULL,
+  id_banco int(11) NOT NULL,
+  cuenta varchar(50) NOT NULL,
+  numero varchar(50) NOT NULL,
+  importe int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_COMPRAS_CABECERAS
+CREATE TABLE app_pv_cesar.recibos_compras_cabeceras (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  fecha datetime DEFAULT current_timestamp(),
+  numero varchar(50) NOT NULL,
+  id_proveedor int(11) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_COMPRAS_DETALLES
+CREATE TABLE app_pv_cesar.recibos_compras_detalles (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_recibo_compra_cabecera int(11) NOT NULL,
+  id_compra_cabecera int(11) NOT NULL,
+  monto int(11) DEFAULT 0,
+  saldo int(11) DEFAULT 0,
+  importe int(11) DEFAULT 0,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_COMPRAS_PAGOS
+CREATE TABLE app_pv_cesar.recibos_compras_pagos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_recibo_compra_cabecera int(11) NOT NULL,
+  id_forma_pago int(11) NOT NULL,
+  id_tarjeta int(11) NOT NULL,
+  id_banco int(11) NOT NULL,
+  cuenta varchar(50) NOT NULL,
+  numero varchar(50) NOT NULL,
+  importe int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_VENTAS_CABECERAS
+CREATE TABLE app_pv_cesar.recibos_ventas_cabeceras (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  fecha datetime DEFAULT current_timestamp(),
+  numero varchar(50) NOT NULL,
+  id_cliente int(11) NOT NULL,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_VENTAS_DETALLES
+CREATE TABLE app_pv_cesar.recibos_ventas_detalles (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_recibo_venta_cabecera int(11) NOT NULL,
+  id_venta_cabecera int(11) NOT NULL,
+  monto int(11) DEFAULT 0,
+  saldo int(11) DEFAULT 0,
+  importe int(11) DEFAULT 0,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- RECIBOS_VENTAS_PAGOS
+CREATE TABLE app_pv_cesar.recibos_ventas_pagos (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_recibo_venta_cabecera int(11) NOT NULL,
+  id_forma_cobro int(11) NOT NULL,
+  id_tarjeta int(11) NOT NULL,
+  id_banco int(11) NOT NULL,
+  cuenta varchar(50) NOT NULL,
+  numero varchar(50) NOT NULL,
+  importe int(11) DEFAULT 1,
+  usuario_id int(11) DEFAULT 1,
+  date_add datetime DEFAULT current_timestamp(),
+  date_mod datetime DEFAULT NULL,
+  date_del datetime DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
 
 -- TRIGGERS
 -- VENTAS DETALLES
