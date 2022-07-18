@@ -33,6 +33,9 @@ const cuentas_bancariasRouter = require('./routes/cuentas_bancariasRouter');
 const monedasRouter = require('./routes/monedasRouter');
 const configuracionesRouter = require('./routes/configuracionesRouter');
 const apertura_cierre_cajasRouter = require('./routes/apertura_cierre_cajasRouter');
+const condicionesRouter = require('./routes/condicionesRouter');
+const formas_cobrosRouter = require('./routes/formas_cobrosRouter');
+const formas_pagosRouter = require('./routes/formas_pagosRouter');
 
 const app = express();
 
@@ -75,7 +78,9 @@ app.use('/api/v1/cuentas_bancarias', cuentas_bancariasRouter);
 app.use('/api/v1/monedas', monedasRouter);
 app.use('/api/v1/configuraciones', configuracionesRouter);
 app.use('/api/v1/apertura_cierre_cajas', apertura_cierre_cajasRouter);
-
+app.use('/api/v1/condiciones', condicionesRouter);
+app.use('/api/v1/formas_cobros', formas_cobrosRouter);
+app.use('/api/v1/formas_pagos', formas_pagosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
